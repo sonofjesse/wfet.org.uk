@@ -1,0 +1,8 @@
+.label {
+    margin: 0;
+    font-family: var(--wp--preset--font-family--body);
+    font-size: clamp(18px, 1.39vw, 20px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: $glass;
+}

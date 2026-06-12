@@ -1,0 +1,158 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$service-cta-gutter: clamp(24px, 4.6vw, 80px);
+$service-cta-padding-y: clamp(40px, 4.17vw, 60px);
+$service-cta-copy-max-width: 588px;
+$service-cta-body-max-width: 535px;
+$service-cta-buttons-gap: clamp(20px, 3.13vw, 45px);
+$service-cta-inner-gap: clamp(32px, 5vw, 60px);
+$service-cta-copy-gap: 17px;
+$service-cta-graphic-width: clamp(240px, 28vw, 404px);
+$service-cta-graphic-height: clamp(270px, 31.7vw, 456px);
+
+.service-cta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: $midnight;
+    overflow: hidden;
+
+    &--bg-rose-dark {
+        --service-cta-bg: #{$rose-dark};
+    }
+
+    &--bg-moss-dark {
+        --service-cta-bg: #{$moss-dark};
+    }
+
+    &--bg-sky-dark {
+        --service-cta-bg: #{$sky-dark};
+    }
+
+    background-color: var(--service-cta-bg);
+
+    &__graphic {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: $service-cta-graphic-width;
+        height: $service-cta-graphic-height;
+        pointer-events: none;
+    }
+
+    &__graphic-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: left top;
+        opacity: 0.05;
+        transform: scaleY(-1);
+    }
+
+    &__inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: $service-cta-inner-gap;
+        width: 100%;
+        max-width: $container-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding: $service-cta-padding-y $service-cta-gutter;
+
+        @include respond-to(lg) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    &__copy {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $service-cta-copy-gap;
+        width: 100%;
+        //max-width: $service-cta-copy-max-width;
+        word-break: break-word;
+
+        > *:first-child {
+            margin-top: 0;
+        }
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+            width: 100%;
+            font-family: var(--wp--preset--font-family--heading);
+            font-size: clamp(28px, 2.78vw, 40px);
+            font-weight: 400;
+            line-height: 1.2;
+            color: $midnight;
+        }
+
+        p {
+            margin: 0;
+            //max-width: $service-cta-body-max-width;
+            font-family: var(--wp--preset--font-family--body);
+            font-size: clamp(18px, 1.39vw, 20px);
+            font-weight: 400;
+            line-height: 1.3;
+            color: $midnight;
+
+            &:first-child {
+                max-width: 100%;
+                font-family: var(--wp--preset--font-family--heading);
+                font-size: clamp(28px, 2.78vw, 40px);
+                line-height: 1.2;
+            }
+        }
+
+        strong,
+        b {
+            font-weight: 700;
+        }
+
+        a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: underline;
+
+            &:hover,
+            &:focus-visible {
+                text-decoration: none;
+            }
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: $service-cta-buttons-gap;
+        width: 100%;
+
+        @include respond-to(lg) {
+            flex: 0 0 auto;
+            justify-content: flex-end;
+            width: auto;
+        }
+    }
+
+}

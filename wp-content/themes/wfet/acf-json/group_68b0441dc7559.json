@@ -1,0 +1,87 @@
+{
+    "key": "group_68b0441dc7559",
+    "title": "Universal Block Fields",
+    "fields": [
+        {
+            "key": "field_68b0482e79e9b",
+            "label": "Margin Top",
+            "name": "margin_top",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "mt-5": "Large",
+                "mt-3": "Medium",
+                "mt-1": "Small",
+                "mt-0": "None (default)"
+            },
+            "default_value": "mt-0",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_68b0441ec57c8",
+            "label": "Margin Bottom",
+            "name": "margin_bottom",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "mb-5": "Large (default)",
+                "mb-3": "Medium",
+                "mb-1": "Small",
+                "mb-0": "None"
+            },
+            "default_value": "mb-5",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "all"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1772626369
+}

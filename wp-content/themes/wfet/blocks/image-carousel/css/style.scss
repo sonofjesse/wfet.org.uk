@@ -1,0 +1,183 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$image-carousel-slide-width: 350px;
+$image-carousel-slide-height: 464px;
+$image-carousel-slide-gap: 25px;
+$image-carousel-side-offset: 50px;
+$image-carousel-side-scale: 0.85;
+$image-carousel-slide-outer-width: $image-carousel-slide-width + $image-carousel-slide-gap;
+
+.image-carousel {
+    width: 100%;
+    overflow-x: clip;
+    overflow-y: hidden;
+    margin-top: -100px; // counter the margin-top on the .image-carousel__inner
+
+    &__inner {
+        position: relative;
+        width: 100%;
+        padding: 0;
+        transform: translateY(100px);
+    }
+
+    &__track {
+        position: relative;
+        width: 100%;
+        overflow: visible;
+
+        &.is-initialized {
+            cursor: grab;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
+    }
+
+    &__strip {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        will-change: transform;
+        touch-action: pan-y;
+    }
+
+    &__slide {
+        flex: 0 0 auto;
+        width: $image-carousel-slide-outer-width;
+        max-width: $image-carousel-slide-outer-width;
+        padding: 0 calc(#{$image-carousel-slide-gap} / 2);
+        box-sizing: border-box;
+        transform-origin: center top;
+        transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), padding-top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+
+        &:not(.is-center) {
+            padding-top: $image-carousel-side-offset;
+            transform: scale($image-carousel-side-scale);
+        }
+
+        &.is-center {
+            padding-top: 0;
+            transform: scale(1);
+        }
+    }
+
+    &__frame {
+        position: relative;
+        width: $image-carousel-slide-width;
+        max-width: $image-carousel-slide-width;
+        height: $image-carousel-slide-height;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    &__image,
+    &__frame picture,
+    &__frame picture img,
+    &__frame > img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+
+    &--bg-sand {
+        background-color: $sand;
+        color: $midnight;
+
+        .image-carousel__frame {
+            background-color: color-mix(in srgb, $sand, $midnight 6%);
+        }
+    }
+
+    &--bg-midnight {
+        background-color: $midnight;
+        color: $sand;
+
+        .image-carousel__frame {
+            background-color: color-mix(in srgb, $midnight, white 8%);
+        }
+    }
+
+    &--single {
+        .image-carousel__inner {
+            display: flex;
+            justify-content: center;
+        }
+
+        .image-carousel__track {
+            width: auto;
+        }
+
+        .image-carousel__slide {
+            transform: none;
+            padding-top: 0;
+        }
+    }
+
+    &--editor-preview {
+        .image-carousel__track {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: $image-carousel-slide-gap;
+            overflow-x: auto;
+            padding: 0 clamp(24px, 4.6vw, 80px);
+            scroll-snap-type: x mandatory;
+        }
+
+        .image-carousel__slide {
+            flex: 0 0 auto;
+            width: $image-carousel-slide-width;
+            max-width: $image-carousel-slide-width;
+            transform: none;
+            padding-top: 0;
+            scroll-snap-align: center;
+        }
+    }
+
+    @media (max-width: #{$breakpoint-lg - 1px}) {
+        $tablet-slide-width: 280px;
+        $tablet-slide-height: 371px;
+        $tablet-slide-outer-width: $tablet-slide-width + $image-carousel-slide-gap;
+
+        &__slide {
+            width: $tablet-slide-outer-width;
+            max-width: $tablet-slide-outer-width;
+        }
+
+        &__frame {
+            width: $tablet-slide-width;
+            max-width: $tablet-slide-width;
+            height: $tablet-slide-height;
+        }
+    }
+
+    @media (max-width: #{$breakpoint-md - 1px}) {
+        $mobile-slide-width: 240px;
+        $mobile-slide-height: 318px;
+        $mobile-slide-outer-width: $mobile-slide-width + $image-carousel-slide-gap;
+
+        &__slide {
+            width: $mobile-slide-outer-width;
+            max-width: $mobile-slide-outer-width;
+        }
+
+        &__frame {
+            width: $mobile-slide-width;
+            max-width: $mobile-slide-width;
+            height: $mobile-slide-height;
+        }
+
+        &__slide:not(.is-center) {
+            transform: scale(0.9);
+        }
+
+        &__slide.is-center {
+            transform: scale(1);
+        }
+    }
+}

@@ -1,0 +1,118 @@
+/**
+ * Block layout — constrained content width with full-width section support.
+ *
+ * wp-block-library is dequeued on the frontend, so these rules replace its
+ * width/alignment styles for Group / alignwide / alignfull.
+ * Group padding, block gap, and spacing presets come from theme.json via global-styles.
+ *
+ * Approach: centre blocks with `max-width: min(size, 100% - gutters)` and auto
+ * margins — no per-child padding. This makes every block type (heading,
+ * paragraph, quote, pullquote, image, etc.) line up on the same edges,
+ * whether nested in a constrained Group or loose at the top level, and avoids
+ * double gutters when constrained containers are nested.
+ */
+
+$layout-gutter: clamp(24px, 4.6vw, 80px);
+
+// Native block text alignment (wp-block-library is dequeued on the frontend).
+.has-text-align-left {
+  text-align: left;
+}
+
+.has-text-align-center {
+  text-align: center;
+}
+
+.has-text-align-right {
+  text-align: right;
+}
+
+// Centre a block within the content container.
+@mixin soj-content-width($size: var(--wp--style--global--content-size, #{$container-width})) {
+  max-width: min(#{$size}, calc(100% - (2 * #{$layout-gutter})));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// --- Constrained containers (Group "inner blocks use content width") ---------
+.is-layout-constrained > :where(:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright)) {
+  @include soj-content-width;
+}
+
+.is-layout-constrained > .alignwide {
+  @include soj-content-width(var(--wp--style--global--wide-size, 1600px));
+}
+
+// --- Loose native blocks at the top level of page/post content ---------------
+// Keeps core blocks aligned to the same container as constrained Groups.
+// Use explicit selectors (not [class*="wp-block-"]) so ACF blocks (wp-block-acf-*)
+// and full-width Group sections stay unconstrained.
+.site-main > :where(
+  p,
+  h1, h2, h3, h4, h5, h6,
+  blockquote,
+  .wp-block-heading,
+  .wp-block-paragraph,
+  .wp-block-quote,
+  .wp-block-pullquote,
+  .wp-block-list,
+  ul, ol,
+  .wp-block-image,
+  .wp-block-buttons,
+  .wp-block-yoast-faq-block,
+  .wp-block-table,
+  .table-scroll,
+  figure
+):not(.alignfull):not(.alignwide) {
+  @include soj-content-width;
+}
+
+.site-main > .alignwide {
+  @include soj-content-width(var(--wp--style--global--wide-size, 1600px));
+}
+
+// --- Full-width breakout (backgrounds, heroes) -------------------------------
+.alignfull {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+// Group sections: outer wrapper width; inner content uses the rules above.
+.wp-block-group {
+  &.alignwide {
+    @include soj-content-width(var(--wp--style--global--wide-size, 1600px));
+  }
+
+  &.alignfull {
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+}
+
+// Core Image block (wp-block-library is dequeued on the frontend).
+.wp-block-image {
+  margin:0;
+  max-width: 100% !important;
+  img {
+    width: 100%;
+  }
+}
+
+// Mobile — table scroll areas stay within the content container (not full viewport).
+@media (max-width: #{$breakpoint-md - 1px}) {
+  .site-main > .table-scroll,
+  .site-main > .wp-block-table,
+  .is-layout-constrained > .table-scroll,
+  .is-layout-constrained > .wp-block-table,
+  .is-layout-constrained > :where(:not(.alignwide):not(.alignfull)) .table-scroll,
+  .is-layout-constrained > :where(:not(.alignwide):not(.alignfull)) .wp-block-table {
+    @include soj-content-width;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}

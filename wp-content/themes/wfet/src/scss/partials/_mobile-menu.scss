@@ -1,0 +1,560 @@
+// ============================================================================
+// Mobile Menu (Pure CSS) — Clean SCSS (mobile-first, min-width breakpoints)
+// ============================================================================
+
+// ---- Config
+$break-md: 992px;
+
+// ============================================================================
+// Accessibility Helpers
+// ============================================================================
+// Screen reader only class for accessibility announcements
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Optional helpers
+@mixin up($w) {
+  @media (min-width: $w) {
+    @content;
+  }
+}
+
+// ============================================================================
+// Base (mobile defaults)
+// ============================================================================
+.mobile-menu-toggle {
+  display: flex; // mobile default: visible
+  position: relative;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  transition: all 0.3s ease;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  order: 5;
+
+  @media (min-width: $breakpoint-md) {
+    padding-right: 30px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+
+    .white-line {
+      width: 24px;
+      height: 2px;
+      background: $white;
+      border-radius: 1px;
+      display: block;
+      transition: transform 0.3s ease;
+      transform-origin: center;
+    }
+  }
+
+  // Accessibility: focus styles
+  &:focus {
+    outline: 2px solid #007cba;
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// Menu container
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: -100svw; // off-screen (mobile full width)
+  width: 100svw; // mobile default: full-width drawer
+  height: 100dvh;
+  z-index: 1002;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  opacity: 0; // becomes 1 when active
+  background-color: var(--wp--preset--color--ocean);
+
+  .container {
+    width: 100%;
+  }
+
+  // Close button
+  .mobile-menu-close {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 3px;
+      background-color: #333;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+
+      &:nth-child(1) {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+    }
+
+    &:hover span {
+      background-color: #666;
+    }
+
+    &:focus {
+      outline: 2px solid #007cba;
+      outline-offset: 2px;
+    }
+  }
+
+  // Navigation
+  .mobile-menu-nav {
+    flex: 1;
+    padding: 20px 0 50px 0;
+    z-index: 11;
+    align-items: end;
+    position: relative;
+
+    .container {
+      margin: 0 auto;
+    }
+
+    .button__cta {
+      z-index: 12;
+      align-self: flex-start;
+      margin-top: $spacing-sm;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width: auto;
+      max-width: 100%;
+
+      li {
+        margin: 0;
+        padding: 0 20px 0 30px;
+        position: relative;
+
+        &.menu-item-has-children {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0 8px;
+
+          >a {
+            flex: 1 1 auto;
+            min-width: 0;
+            padding-right: 0;
+          }
+
+          >.mobile-submenu-toggle {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: $white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: opacity 0.2s ease;
+
+            .mobile-submenu-chevron {
+              display: block;
+            }
+
+            &:hover {
+              opacity: 0.75;
+            }
+
+            &:focus {
+              outline: 2px solid #eee;
+              outline-offset: 4px;
+            }
+
+            &:focus:not(:focus-visible) {
+              outline: none;
+            }
+          }
+        }
+
+        a {
+          display: block;
+          padding: 8px 0;
+          color: $white;
+          text-decoration: none;
+          line-height: clamp(30px, 5svw,40x);
+          font-size: clamp(30px, 5svw, 40px);
+          transition: color 0.3s ease;
+          border-radius: 4px;
+
+          &:focus {
+            outline: 2px solid #eee;
+            outline-offset: 4px;
+            color: #eee;
+          }
+
+          &:focus:not(:focus-visible) {
+            outline: none;
+          }
+        }
+
+        &:last-child a {
+          padding-bottom: 0;
+        }
+
+        &.current_page_item,
+        &.current_page_ancestor {
+          >a {
+            position: relative;
+          }
+        }
+      }
+    }
+
+    .btn.white {
+      width: 100%;
+      font-size: $font-size-xl;
+      justify-content: space-between;
+    }
+
+
+    // Submenus - Multi-level horizontal navigation
+    .sub-menu {
+      position: fixed;
+      top: 0;
+      left: 100svw;
+      width: 100svw;
+      height: 100dvh;
+      background-color: var(--wp--preset--color--ocean);
+      z-index: 1003; // Deeper levels get higher z-index via JS (stack over primary + parent panels)
+      transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        visibility 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      visibility: hidden;
+      transform: translateX(0);
+      padding: 0 0 50px 0;
+      justify-content: end;
+      list-style: none;
+
+      .mobile-submenu-back-item {
+        list-style: none;
+        margin: 0;
+        padding-bottom: 8px;
+      }
+
+      .back-button {
+        display: block;
+        width: 100%;
+        font-size: 40px;
+        line-height: 44px;
+        line-height: clamp(30px, 5svw, 40px);
+        font-size: clamp(30px, 5svw, 40px);
+        color: $white;
+        text-decoration: none;
+        padding: 0 0 0 0;
+        margin: 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+
+        .back-button-label {
+          display: block;
+          opacity: 0.7;
+        }
+      }
+
+      li {
+        &.menu-item-has-children {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0 8px;
+
+          >a {
+            flex: 1 1 auto;
+            min-width: 0;
+            padding-right: 0;
+          }
+
+          >.mobile-submenu-toggle {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: $white;
+            cursor: pointer;
+
+            .mobile-submenu-chevron {
+              display: block;
+            }
+
+            &:hover {
+              opacity: 0.75;
+            }
+
+            &:focus {
+              outline: 2px solid #eee;
+              outline-offset: 4px;
+            }
+
+            &:focus:not(:focus-visible) {
+              outline: none;
+            }
+          }
+        }
+
+      }
+
+      // Parent title item styled like menu item
+      .parent-title-item {
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+        list-style: none;
+
+        .parent-title-link {
+          display: flex;
+          align-items: center;
+          padding: 8px 0 30px 0;
+          color: $white;
+          text-decoration: none;
+          font-size: 40px;
+          line-height: 40px;
+          transition: color 0.3s ease;
+
+          &:focus {
+            outline: 2px solid #eee;
+            outline-offset: 4px;
+            color: #eee;
+          }
+
+          &:focus:not(:focus-visible) {
+            outline: none;
+          }
+        }
+      }
+
+      // Submenu content
+      .sub-menu-content {
+        flex: 1;
+        padding: 20px 0 17svh 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+
+        .container {
+          margin: 0 auto;
+        }
+
+        li {
+          margin: 0;
+          padding: 0;
+          position: relative;
+
+          &:last-child a {
+            padding-bottom: 0;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+// Overlay
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100svw;
+  height: 100dvh;
+  background-color: transparent;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+
+
+// ============================================================================
+// State (active/open)
+// ============================================================================
+// Use body.mobile-menu-active for reliable page lock.
+
+body.mobile-menu-active {
+  overflow: hidden;
+
+  #masthead.masthead-logo-dark .desktop-nav {
+    background: transparent;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  header#masthead {
+    position: relative;
+    z-index: 1010;
+    background: none;
+    position: fixed;
+    //border-bottom: solid 1px rgba($white, 0.1);
+    .desktop-nav {
+      background: none;
+    }
+
+    .line {
+      height: 0;
+    }
+  }
+
+  .mobile-menu {
+    left: 0 !important;
+    opacity: 1 !important;
+  }
+
+  // slide in
+  .mobile-menu-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-menu-toggle {
+
+    .icon {
+      justify-content: center;
+    }
+
+    span.white-line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      &.line1 {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      &.line2 {
+        transform: translate(-50%, -50%) scaleX(0);
+      }
+
+      &.line3 {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+    }
+  }
+
+  // If you switch logos when menu is active:
+  .dark-logo {
+    display: none !important;
+  }
+
+  .light-logo {
+    display: block !important;
+  }
+
+  // Submenu active states
+  .sub-menu.active {
+    display: flex !important;
+    left: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+  }
+
+  // Animation states for smooth transitions
+  .sub-menu.slide-in-right {
+    display: flex !important;
+    left: 0 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    background-color: $primary-color !important;
+  }
+
+  .sub-menu.slide-in-left {
+    display: flex !important;
+    left: 0 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    background-color: $primary-color !important;
+  }
+
+  .sub-menu.slide-out-left {
+    display: flex !important;
+    left: -100svw !important;
+    visibility: hidden !important;
+    transform: translateX(-100svw) !important;
+    transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      visibility 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sub-menu.slide-out-right {
+    display: flex !important;
+    left: 100svw !important;
+    visibility: hidden !important;
+    transform: translateX(100svw) !important;
+    transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      visibility 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background-color: $primary-color !important;
+  }
+
+}
+
+// ============================================================================
+// Larger screens (desktop/tablet-up) with min-width
+// ============================================================================
+@include up($breakpoint-lg) {
+
+  // Hide mobile UI entirely on larger screens
+  .mobile-menu-toggle,
+  .mobile-menu,
+  .mobile-menu-overlay {
+    display: none !important;
+  }
+}

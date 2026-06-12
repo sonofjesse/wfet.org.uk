@@ -1,0 +1,89 @@
+// Colors
+$white: #ffffff;
+$mid_gray: #929292;
+$black: #111111;
+$light_gray: #bcbcbc;
+$xlight_gray: #f8f6f6;
+$dark_gray: #343a40;
+
+// Additional Colors from Figma
+$light_grey: #e7e7e7;
+$mid_grey: #929292;
+$dark_grey_body: #636363;
+
+// 2026 Figma colour tokens — single source of truth is theme.json.
+// These reference the CSS custom properties generated from theme.json palette.
+$midnight: var(--wp--preset--color--midnight);
+$ocean: var(--wp--preset--color--ocean);
+$glass: var(--wp--preset--color--glass);
+$sand: var(--wp--preset--color--sand);
+$white-pure: var(--wp--preset--color--white);
+$rose: var(--wp--preset--color--rose);
+$rose-dark: var(--wp--preset--color--rose-dark);
+$moss: var(--wp--preset--color--moss);
+$moss-dark: var(--wp--preset--color--moss-dark);
+$brick: var(--wp--preset--color--brick);
+$brick-dark: var(--wp--preset--color--brick-dark);
+$sky: var(--wp--preset--color--sky);
+$sky-dark: var(--wp--preset--color--sky-dark);
+
+// 2026 Figma sizing tokens (colours.tokens.json)
+$container-width: 1600px;
+$container-width-small: 1300px;
+
+// Color Variables
+$primary-color: $midnight;
+$secondary-color: $glass;
+$accent-color: $glass;
+$text-color: $sand;
+
+$main-bg: $primary-color;
+
+// Line Colours
+$line_colour: $white;
+$line_colour_transparent: #FFFFFF26;
+
+// Spacing
+$spacing-xs: 2rem;
+$spacing-sm: 4rem;
+$spacing-md: 6rem;
+$spacing-lg: 8rem;
+$spacing-xl: 10rem;
+$spacing-xxl: 12rem;
+
+// Breakpoints
+$breakpoint-sm: 576px; // Mobile
+$breakpoint-md: 768px; // Tablet
+$breakpoint-lg: 992px; // Laptop
+$breakpoint-xl: 1441px; // Desktop
+$breakpoint-xxl: 1600px; // Large Desktop
+
+// Color variations
+// color-mix() is used (not Sass lighten/darken) because the colours are now
+// CSS custom properties from theme.json, which Sass colour functions can't process.
+$primary-light: color-mix(in srgb, $primary-color, white 10%);
+$primary-dark: color-mix(in srgb, $primary-color, black 10%);
+$secondary-light: color-mix(in srgb, $secondary-color, white 10%);
+$secondary-dark: color-mix(in srgb, $secondary-color, black 10%);
+
+// Layout
+$container-max-width: 1200px;
+$container-padding: $spacing-md;
+
+// Font Sizes
+$font-size-base: 16px;
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
+
+// Z-index scale
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;

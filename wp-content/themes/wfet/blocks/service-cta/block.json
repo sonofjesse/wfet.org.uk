@@ -1,0 +1,35 @@
+{
+    "name": "acf/service-cta",
+    "apiVersion": 3,
+    "title": "Service CTA",
+    "description": "A custom service CTA block",
+    "category": "soj-blocks",
+    "icon": "admin-comments",
+    "keywords": [
+        "service-cta",
+        "service cta"
+    ],
+    "style": [
+        "file:./css/style.css"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "blockVersion": 3
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "preview_image_help": true
+            }
+        }
+    },
+    "supports": {
+        "align": [
+            "full",
+            "wide"
+        ],
+        "mode": true
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "name": "acf/all-news",
+    "apiVersion": 3,
+    "title": "All News",
+    "description": "Lists all news posts with pagination using the standard news cards.",
+    "category": "soj-blocks",
+    "icon": "admin-comments",
+    "keywords": [
+        "all-news",
+        "all news"
+    ],
+    "style": [
+        "file:./css/style.css"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "blockVersion": 3
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "preview_image_help": true
+            }
+        }
+    },
+    "supports": {
+        "align": false,
+        "mode": true
+    }
+}

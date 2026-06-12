@@ -1,0 +1,211 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$cta-gutter: clamp(24px, 4.6vw, 80px);
+$cta-padding-y: clamp(60px, 10.4vw, 150px);
+$cta-inner-max-width: $container-width-small;
+$cta-copy-max-width: 880px;
+$cta-stack-gap: 26px;
+$cta-buttons-gap: 27px;
+$cta-body-max-width: 87.68%;
+
+.cta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    text-align: center;
+    color: $sand;
+
+    &--bg-glass {
+        --cta-bg: #{$ocean};
+        --cta-overlay: #{color-mix(in srgb, $ocean, transparent 5%)};
+    }
+
+    &--bg-midnight {
+        --cta-bg: #{$midnight};
+        --cta-overlay: #{color-mix(in srgb, $midnight, transparent 5%)};
+    }
+
+    &--bg-sand {
+        --cta-bg: #{$sand};
+        --cta-overlay: #{color-mix(in srgb, $sand, transparent 5%)};
+        color: $midnight;
+    }
+
+    &--bg-rose-dark {
+        --cta-bg: #{$rose-dark};
+        --cta-overlay: #{color-mix(in srgb, $rose-dark, transparent 5%)};
+        color: $midnight;
+    }
+
+    &--bg-sky-dark {
+        --cta-bg: #{$sky-dark};
+        --cta-overlay: #{color-mix(in srgb, $sky-dark, transparent 5%)};
+        color: $midnight;
+    }
+
+    &--bg-moss-dark {
+        --cta-bg: #{$moss-dark};
+        --cta-overlay: #{color-mix(in srgb, $moss-dark, transparent 5%)};
+        color: $midnight;
+    }
+
+    background-color: var(--cta-bg);
+
+    &__media {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    &__media-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    &__media-overlay {
+        position: absolute;
+        inset: 0;
+        background-color: var(--cta-overlay);
+    }
+
+    &__inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: $cta-stack-gap;
+        width: 100%;
+        max-width: $cta-inner-max-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding: $cta-padding-y $cta-gutter;
+    }
+
+    &__copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $cta-stack-gap;
+        width: 100%;
+        max-width: $cta-copy-max-width;
+        word-break: break-word;
+
+        > *:first-child {
+            margin-top: 0;
+        }
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        > p:first-child {
+            width: 100%;
+            margin: 0;
+            font-family: var(--wp--preset--font-family--heading);
+            font-size: clamp(28px, 2.78vw, 40px);
+            font-weight: 400;
+            line-height: 1.2;
+            color: inherit;
+        }
+
+        p {
+            margin: 0;
+            max-width: $cta-body-max-width;
+            font-family: var(--wp--preset--font-family--body);
+            font-size: clamp(18px, 1.39vw, 20px);
+            font-weight: 400;
+            line-height: 1.3;
+            color: inherit;
+
+            &:first-child {
+                max-width: 100%;
+                font-family: var(--wp--preset--font-family--heading);
+                font-size: clamp(28px, 2.78vw, 40px);
+                line-height: 1.2;
+            }
+        }
+
+        strong,
+        b {
+            font-weight: 700;
+        }
+
+        a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: underline;
+
+            &:hover,
+            &:focus-visible {
+                text-decoration: none;
+            }
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: $cta-buttons-gap;
+        width: 100%;
+    }
+
+    &__button.btn {
+        min-width: clamp(180px, 14.6vw, 210px);
+    }
+
+    &--bg-glass,
+    &--bg-midnight {
+        .btn-primary {
+            --btn-color: var(--wp--preset--color--sand);
+            --btn-hover-color: var(--wp--preset--color--sand);
+        }
+
+        .btn-secondary {
+            border-color: var(--wp--preset--color--sand);
+            color: var(--wp--preset--color--sand);
+
+            &:hover,
+            &:focus-visible {
+                background-color: color-mix(in srgb, var(--wp--preset--color--sand), transparent 92%);
+                color: var(--wp--preset--color--sand);
+                border-color: var(--wp--preset--color--sand);
+            }
+        }
+    }
+
+    &--bg-rose-dark,
+    &--bg-moss-dark,
+    &--bg-sky-dark {
+        .btn-secondary {
+            border-color: var(--wp--preset--color--midnight);
+            color: var(--wp--preset--color--midnight);
+
+            &:hover,
+            &:focus-visible {
+                background-color: color-mix(in srgb, var(--wp--preset--color--midnight), transparent 92%);
+                color: var(--wp--preset--color--midnight);
+                border-color: var(--wp--preset--color--midnight);
+            }
+        }
+    }
+}

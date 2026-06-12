@@ -1,0 +1,142 @@
+@import "variables";
+@import "mixins";
+
+.news-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 20px 20px 18px 35px;
+    border-radius: 100px;
+    background-color: rgba(217, 217, 217, 0.05);
+
+    &__label {
+        margin: 0;
+        flex-shrink: 0;
+        font-family: var(--wp--preset--font-family--heading);
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 1.1;
+        color: $sand;
+        white-space: nowrap;
+        word-break: break-word;
+    }
+
+    &__links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        min-width: 0;
+    }
+
+    &__button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        min-height: 30px;
+        padding: 0 20px;
+        border: 0;
+        border-radius: 100px;
+        background-color: $moss-dark;
+        color: $midnight;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        word-break: break-word;
+        cursor: pointer;
+        opacity: 1;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            color: $midnight;
+            text-decoration: none;
+        }
+
+        &.is-active {
+            opacity: 1;
+        }
+
+        &--rose-dark {
+            background-color: $rose-dark;
+        }
+
+        &--moss-dark {
+            background-color: $moss-dark;
+        }
+
+        &--sky-dark {
+            background-color: $sky-dark;
+        }
+    }
+
+    &.has-active &__button:not(.is-active) {
+        opacity: 0.2;
+    }
+
+    &__links:has(&__button:hover) &__button:not(:hover) {
+        opacity: 0.2;
+    }
+
+    &__links:has(&__button:hover) &__button:hover {
+        opacity: 1;
+    }
+
+    &__clear {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: $sand;
+        cursor: pointer;
+        opacity: 1;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            opacity: 0.7;
+        }
+
+        svg {
+            display: block;
+        }
+    }
+
+    &.has-active &__clear {
+        display: inline-flex;
+    }
+}
+
+.category-archive {
+    .news-filters__label {
+        color: $midnight;
+    }
+}
+
+.all-news {
+    &__results {
+        transition: opacity 0.2s ease;
+
+        &--loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+}

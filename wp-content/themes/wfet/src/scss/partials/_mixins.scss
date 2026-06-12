@@ -1,0 +1,216 @@
+// Responsive breakpoint mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint ==sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+}
+
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-block;
+  padding: $spacing-xs $spacing-sm;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+@mixin button-primary {
+  @extend .btn;
+  @extend .btn-primary;
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: $secondary-color;
+  color: $primary-color;
+
+  &:hover {
+    background-color: $secondary-dark;
+    color: $primary-color;
+  }
+}
+
+// ============================================================================
+// TYPOGRAPHY MIXINS
+// ============================================================================
+
+// Helper function to strip units for calculations
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+// Fluid font size mixin
+@mixin fluid-font-size($min-size, $max-size, $min-vw: 480px, $max-vw: 1280px) {
+  font-size: clamp(#{$min-size},
+    #{$min-size} + (#{strip-unit($max-size)} - #{strip-unit($min-size)}) * ((100svw - #{$min-vw}) / (#{strip-unit($max-vw)} - #{strip-unit($min-vw)})),
+    #{$max-size});
+}
+
+// Fluid line height mixin
+@mixin fluid-line-height($min-size,
+  $max-size,
+  $min-vw: 480px,
+  $max-vw: 1280px) {
+  line-height: clamp(#{$min-size},
+    #{$min-size} + (#{strip-unit($max-size)} - #{strip-unit($min-size)}) * ((100svw - #{$min-vw}) / (#{strip-unit($max-vw)} - #{strip-unit($min-vw)})),
+    #{$max-size});
+}
+
+// Heading Mixins
+@mixin heading-display {
+  font-family: var(--wp--preset--font-family--heading);
+  font-style: normal;
+  font-weight: 400;
+  //@include fluid-font-size(50px, 120px);
+  //@include fluid-line-height(58px, 120px);
+  font-size: clamp(50px, 4.8svw, 80px);
+  line-height: 100%;
+  letter-spacing: -0.03em;
+  color: $black;
+}
+
+@mixin heading-large {
+  font-family: var(--wp--preset--font-family--heading);
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(26px, 56px);
+  @include fluid-line-height(28px, 60px);
+  letter-spacing: -0.03em;
+  color: $black;
+}
+
+@mixin heading-medium {
+  font-family: var(--wp--preset--font-family--heading);
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(40px, 40px);
+  @include fluid-line-height(46px, 46px);
+  letter-spacing: -0.03em;
+  color: $black;
+}
+
+@mixin heading-small {
+  font-family: var(--wp--preset--font-family--heading);
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(20px, 30px);
+  @include fluid-line-height(24px, 36px);
+  letter-spacing: -0.01em;
+  color: $black;
+}
+
+@mixin heading-xsmall {
+  font-family: var(--wp--preset--font-family--heading);
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(12px, 14px);
+  @include fluid-line-height(14px, 16px);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $black;
+}
+
+// Paragraph Mixins
+@mixin paragraph-large {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(22px, 22px);
+  @include fluid-line-height(26px, 26px);
+  color: $black;
+}
+
+@mixin paragraph-regular {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(18px, 18px);
+  @include fluid-line-height(20px, 22px);
+  color: $black;
+}
+
+@mixin paragraph-small {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(15px, 16px);
+  @include fluid-line-height(18px, 20px);
+  color: $black;
+}
+
+@mixin paragraph-xsmall {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(12px, 14px);
+  @include fluid-line-height(14px, 16px);
+  color: $black;
+}
+
+// Narrative Mixins
+@mixin narrative-large {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(20px, 30px);
+  @include fluid-line-height(24px, 34px);
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: $black;
+}
+
+@mixin narrative-medium {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(18px, 24px);
+  @include fluid-line-height(22px, 25px);
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: $black;
+}
+
+@mixin narrative-small {
+  font-style: normal;
+  font-weight: 400;
+  @include fluid-font-size(16px, 18px);
+  @include fluid-line-height(20px, 22px);
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: $black;
+}

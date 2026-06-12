@@ -1,0 +1,231 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$standard-content-gap: 30px;
+$standard-content-gutter: clamp(24px, 4.6vw, 80px);
+$standard-content-body-max-width: 87.68%;
+
+.standard-content {
+    width: 100%;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: $container-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: $standard-content-gutter;
+        padding-right: $standard-content-gutter;
+        //text-align: center;
+    }
+
+    &.mt-0 &__inner {
+        padding-top: 0;
+    }
+
+    &.mt-1 &__inner {
+        padding-top: $spacing-xs;
+    }
+
+    &.mt-3 &__inner {
+        padding-top: $spacing-md;
+    }
+
+    &.mt-5 &__inner {
+        padding-top: $spacing-lg;
+
+        @include respond-to(lg) {
+            padding-top: $spacing-xl;
+        }
+    }
+
+    &.mb-0 &__inner {
+        padding-bottom: 0;
+    }
+
+    &.mb-1 &__inner {
+        padding-bottom: $spacing-xs;
+    }
+
+    &.mb-3 &__inner {
+        padding-bottom: $spacing-md;
+    }
+
+    &.mb-5 &__inner {
+        padding-bottom: $spacing-lg;
+
+        @include respond-to(lg) {
+            padding-bottom: $spacing-xl;
+        }
+    }
+
+    &__caption {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $standard-content-gap;
+        width: 100%;
+        word-break: break-word;
+    }
+
+    &--width-50 &__caption {
+        max-width: 50%;
+    }
+
+    &--width-70 &__caption {
+        max-width: 70%;
+    }
+
+    &--width-100 &__caption {
+        max-width: 100%;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $standard-content-gap;
+        width: 100%;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(16px, 1.39vw, 20px);
+        font-weight: 400;
+        line-height: 1.3;
+
+        > *:first-child {
+            margin-top: 0;
+        }
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        ul,
+        li,
+        p {
+            width: 100%;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        > p:first-child {
+            width: 100%;
+            margin: 0;
+            font-family: var(--wp--preset--font-family--heading);
+        }
+
+        h1 {
+            font-size: clamp(38px, 5vw, 54px);
+        }
+
+        p {
+            margin: 0;
+            font-family: var(--wp--preset--font-family--body);
+            font-size: clamp(16px, 1.39vw, 20px);
+            font-weight: 400;
+            line-height: 1.3;
+            width: 100%;
+
+            &:first-child {
+                max-width: 100%;
+                font-family: var(--wp--preset--font-family--heading);
+                font-size: clamp(28px, 2.78vw, 40px);
+                line-height: 1.2;
+            }
+        }
+
+        strong,
+        b {
+            font-weight: 700;
+        }
+
+        a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: none;
+
+            &:hover,
+            &:focus-visible {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__image-container {
+        width: 100%;
+        margin-top: clamp(40px, 5.4vw, 60px);
+    }
+
+    &__image {
+        width: 100%;
+
+        picture,
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &__image-desktop {
+        @media (max-width: #{$breakpoint-md - 1px}) {
+            display: none;
+        }
+    }
+
+    &__image-mobile {
+        @include respond-to(md) {
+            display: none;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+    }
+
+    &__button.btn {
+        min-width: clamp(180px, 14.6vw, 210px);
+    }
+
+    &--bg-midnight {
+        background-color: $midnight;
+        color: $sand;
+
+        .standard-content__content {
+            color: $sand;
+        }
+    }
+
+    &--bg-sand {
+        background-color: $sand;
+        color: $midnight;
+
+        .standard-content__content {
+            color: $midnight;
+        }
+    }
+
+    @media (max-width: #{$breakpoint-md - 1px}) {
+        &--width-50 &__caption,
+        &--width-70 &__caption {
+            max-width: 100%;
+        }
+    }
+}

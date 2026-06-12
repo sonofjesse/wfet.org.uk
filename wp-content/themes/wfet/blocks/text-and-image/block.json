@@ -1,0 +1,32 @@
+{
+    "name": "acf/text-and-image",
+    "apiVersion": 3,
+    "title": "Text and Image",
+    "description": "A custom text and image block",
+    "category": "soj-blocks",
+    "icon": "admin-comments",
+    "keywords": [
+        "text-and-image",
+        "text and image"
+    ],
+    "style": [
+        "file:./css/style.css"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "blockVersion": 3
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "preview_image_help": true
+            }
+        }
+    },
+    "supports": {
+        "align": false,
+        "mode": true
+    }
+}

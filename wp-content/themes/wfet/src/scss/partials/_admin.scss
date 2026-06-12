@@ -1,0 +1,19 @@
+/**
+ * Editor-only styles (loaded via soj-admin-block-styles in the block editor).
+ * These class names only exist in the editor canvas, so they never affect the frontend.
+ */
+
+// The post-title field at the top of the editor is an <h1>, which would otherwise
+// inherit the large theme.json h1 size. Keep it as a modest title-input size so it
+// reads as the document title, not display copy.
+.editor-visual-editor__post-title-wrapper,
+.edit-post-visual-editor__post-title-wrapper {
+
+    h1,
+    .wp-block-post-title,
+    .editor-post-title__input {
+        font-size: 24px;
+        line-height: 1.2;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}

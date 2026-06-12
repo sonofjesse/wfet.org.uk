@@ -1,0 +1,272 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$service-hero-gutter: clamp(24px, 4.6vw, 80px);
+$service-hero-mobile-gutter: clamp(24px, 11.6vw, 50px);
+$service-hero-caption-max-width: 722px;
+$service-hero-title-max-width: 600px;
+$service-hero-secondary-width: clamp(240px, 25vw, 400px);
+$service-hero-secondary-height: clamp(157px, 16vw, 240px);
+$service-hero-icon-width: clamp(200px, 33.2vw, 478px);
+$service-hero-icon-height: clamp(226px, 37.5vw, 540px);
+$service-hero-max-height: 800px;
+$service-hero-top-padding: clamp(60px, 9.7vw, 140px);
+$service-hero-mobile-top-padding: clamp(60px, 18.6vw, 80px);
+$service-hero-container-offset: max(0px, calc((100vw - #{$container-width}) / 2));
+
+.service-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: $midnight;
+    overflow-x: clip;
+
+    &--bg-rose-dark {
+        --service-hero-bg: #{$rose-dark};
+    }
+
+    &--bg-moss-dark {
+        --service-hero-bg: #{$moss-dark};
+    }
+
+    &--bg-sky-dark {
+        --service-hero-bg: #{$sky-dark};
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+        border-radius: 20px 0 0 0;
+        background-color: var(--service-hero-bg);
+        pointer-events: none;
+
+        @media (min-width: 1200px) {
+            left: 5svw;
+            border-radius: 20px 0 0 20px;
+        }
+
+        @media (min-width: 1900px) {
+            left: 8svw;
+        }
+    }
+
+    &__inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+        //max-width: $container-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding: $service-hero-mobile-top-padding $service-hero-mobile-gutter 0;
+
+        @include respond-to(lg) {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto 1fr;
+            gap: 0;
+            align-items: stretch;
+            min-height: clamp(520px, 60vw, #{$service-hero-max-height});
+            max-height: $service-hero-max-height;
+            overflow: hidden;
+            padding: $service-hero-top-padding 0 0 $service-hero-gutter;
+        }
+    }
+
+    &__icon {
+        display: none;
+        pointer-events: none;
+
+        @include respond-to(lg) {
+            display: block;
+            position: absolute;
+            left: clamp(120px, 22vw, 320px);
+            bottom: 0;
+            z-index: 1;
+            width: $service-hero-icon-width;
+            height: $service-hero-icon-height;
+        }
+    }
+
+    &__icon-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center bottom;
+        opacity: 0.05;
+        transform: scaleY(-1);
+    }
+
+    &__caption {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        width: 100%;
+        max-width: 100%;
+        word-break: break-word;
+        
+        @media (min-width: 992px) {
+            max-width: 46vw;
+            margin-left: 7svw;
+        }
+
+        @media (min-width: 1440px) {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            width: 50svw;
+            max-width: 750px;
+            gap: clamp(16px, 1.67vw, 24px);
+            padding-right: clamp(24px, 3vw, 40px);
+            padding-bottom: clamp(24px, 3vw, 40px);
+        }
+
+        @media (min-width: 1900px) {
+            margin-left: 12svw;
+        }
+
+    }
+
+    &__label {
+        margin: 0;
+        width: 100%;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(18px, 4.65vw, 20px);
+        font-weight: 600;
+        line-height: 1.2;
+        color: $midnight;
+
+        @include respond-to(lg) {
+            font-size: clamp(22px, 2.08vw, 30px);
+        }
+    }
+
+    &__title {
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        font-family: var(--wp--preset--font-family--heading);
+        font-size: clamp(28px, 7.9vw, 34px);
+        font-weight: 400;
+        line-height: 1;
+        color: $midnight;
+
+        @include respond-to(lg) {
+            max-width: $service-hero-title-max-width;
+            font-size: clamp(32px, 3.75vw, 54px);
+        }
+    }
+
+    &__description {
+        margin: 0;
+        width: 100%;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(18px, 4.65vw, 20px);
+        font-weight: 500;
+        line-height: 1.3;
+        color: $midnight;
+        opacity: 0.9;
+
+        @include respond-to(lg) {
+            font-size: clamp(18px, 1.8vw, 22px);
+        }
+    }
+
+    &__secondary-image {
+        display: none;
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        max-width: $service-hero-secondary-width;
+        aspect-ratio: 440 / 288;
+        border-radius: 0 20px 0 20px;
+        overflow: hidden;
+
+        @include respond-to(lg) {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: $service-hero-secondary-width;
+            height: $service-hero-secondary-height;
+            aspect-ratio: auto;
+        }
+
+        @media (min-width: 1200px) {
+            margin-left: 5svw;
+        }
+
+        @media (min-width: 1900px) {
+            margin-left: 8svw;
+        }
+
+        picture,
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__secondary-img,
+    &__secondary-image picture img,
+    &__secondary-image > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    &__primary-image {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        margin-top: clamp(24px, 6vw, 40px);
+        aspect-ratio: 364 / 398;
+        border-radius: 10px 0 0 0;
+        overflow: hidden;
+
+        @include respond-to(lg) {
+            position: absolute;
+            top: $service-hero-top-padding;
+            right: 0;
+            bottom: 0;
+            width: clamp(280px, 37.5vw, 675px);
+            max-width: none;
+            max-height: calc(#{$service-hero-max-height} - #{$service-hero-top-padding});
+            height: auto;
+            margin: 0;
+            aspect-ratio: auto;
+            border-radius: 10px 0 0 0;
+        }
+
+        picture,
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__primary-img,
+    &__primary-image picture img,
+    &__primary-image > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+}

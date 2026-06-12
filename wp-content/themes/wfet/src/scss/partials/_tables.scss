@@ -1,0 +1,144 @@
+/**
+ * Universal table styles — horizontal row dividers, no vertical borders.
+ * Inherits text colour from the parent block/section.
+ */
+
+$table-cell-padding-y: clamp(16px, 2vw, 24px);
+$table-cell-padding-x: clamp(16px, 2.5vw, 32px);
+$table-border-color: color-mix(in srgb, currentColor 18%, transparent);
+
+@mixin soj-table-base {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: var(--wp--preset--font-family--body);
+  font-size: clamp(16px, 1.39vw, 20px);
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  color: inherit;
+  background-color: transparent;
+
+  caption {
+    margin-bottom: $table-cell-padding-y;
+    font-size: clamp(14px, 1.2vw, 16px);
+    font-weight: 600;
+    text-align: left;
+    color: inherit;
+  }
+
+  thead {
+    th {
+      padding: $table-cell-padding-y $table-cell-padding-x;
+      font-weight: 600;
+      vertical-align: top;
+      text-align: left;
+      border: 0;
+      border-bottom: 1px solid $table-border-color;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $table-border-color;
+    }
+
+    td {
+      padding: $table-cell-padding-y $table-cell-padding-x;
+      vertical-align: top;
+      text-align: left;
+      border: 0;
+    }
+  }
+
+  tfoot {
+    td,
+    th {
+      padding: $table-cell-padding-y $table-cell-padding-x;
+      vertical-align: top;
+      text-align: left;
+      border: 0;
+      border-top: 1px solid $table-border-color;
+    }
+  }
+
+  // Tables without thead — treat first row as header when using th cells.
+  tr:first-child th {
+    font-weight: 600;
+    border-bottom: 1px solid $table-border-color;
+  }
+
+  strong,
+  b {
+    font-weight: 700;
+  }
+
+  a {
+    color: $glass;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration-thickness: 2px;
+    }
+  }
+}
+
+// Horizontally scrollable table containers (mobile-friendly).
+@mixin soj-table-scroll-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll,
+.wp-block-table {
+  @include soj-table-scroll-container;
+
+  table {
+    @include soj-table-base;
+  }
+}
+
+.wp-block-table {
+  &.is-style-stripes {
+    tbody tr:nth-child(odd) {
+      background-color: color-mix(in srgb, currentColor 4%, transparent);
+    }
+  }
+}
+
+// Raw tables in block / frontend content (ACF WYSIWYG, etc.).
+table {
+  @include soj-table-base;
+}
+
+// Mobile — keep tables inside the content container; scroll within that box.
+@media (max-width: #{$breakpoint-md - 1px}) {
+  // Flex/grid columns default to min-width: auto — allow shrink so scroll stays contained.
+  :where([class*="__content"]) {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .table-scroll,
+  .wp-block-table {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  .table-scroll table,
+  .wp-block-table table {
+    width: max-content;
+    min-width: 100%;
+  }
+}

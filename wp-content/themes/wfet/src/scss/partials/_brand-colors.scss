@@ -1,0 +1,49 @@
+/**
+ * WordPress palette background utilities — contrast text for .has-*-background-color.
+ *
+ * Palette slugs match theme.json. WordPress outputs the background class on the
+ * block element itself (e.g. .wp-block-group.has-sand-background-color), so these
+ * rules are not nested under .wp-block / .soj-frontend.
+ */
+
+$background-contrast: (
+  midnight: $sand,
+  ocean: $sand,
+  glass: $sand,
+  sand: $midnight,
+  white: $midnight,
+  rose: $midnight,
+  rose-dark: $midnight,
+  moss: $midnight,
+  moss-dark: $midnight,
+  brick: $midnight,
+  brick-dark: $midnight,
+  sky: $midnight,
+  sky-dark: $midnight,
+);
+
+@each $bg, $text in $background-contrast {
+  .has-#{$bg}-background-color {
+    color: #{$text};
+
+    :where(
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      .wp-block-heading,
+      p,
+      .wp-block-paragraph,
+      li,
+      .wp-block-list
+    ) {
+      color: #{$text};
+    }
+
+    a:not(.wp-block-button__link) {
+      color: $glass;
+    }
+  }
+}

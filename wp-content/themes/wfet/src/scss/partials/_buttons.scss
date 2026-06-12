@@ -1,0 +1,157 @@
+// Animated primary button (button-016 pattern).
+// Markup: soj_render_button() in inc/buttons.php
+// Default fill: glass. Use .btn-primary--midnight (or block overrides) where needed.
+
+:root,
+.soj-frontend {
+  --btn-color: var(--wp--preset--color--white, #ffffff);
+  --btn-color-background: var(--wp--preset--color--glass, #008fa8);
+  --btn-hover-color: var(--wp--preset--color--white, #ffffff);
+  --btn-hover-color-background: var(--wp--preset--color--midnight, #2f2e3f);
+  --btn-border: 0;
+  --btn-color-focus: var(--wp--preset--color--midnight);
+  --btn-padding: clamp(14px, 1.25vw, 18px) clamp(24px, 2.5vw, 35px);
+  --btn-border-radius: 2.5em;
+  --btn-text-duplicate-distance: 2lh;
+  --btn-focus-inset: -0.125em;
+  --btn-ease-hover: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  --btn-ease-focus: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.btn {
+  -webkit-user-select: none;
+  user-select: none;
+  color: var(--btn-color);
+  background-color: transparent;
+  outline-style: none;
+  padding: 0;
+  line-height: 1;
+  text-decoration: none;
+  display: inline-grid;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.325s var(--btn-ease-hover);
+  font-family: var(--wp--preset--font-family--body);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: var(--btn-focus-inset);
+    border-radius: var(--btn-border-radius);
+    transition: box-shadow 0.3s var(--btn-ease-focus);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &:is(:focus-visible)::after {
+    box-shadow: 0 0 0 0.125em var(--btn-color-focus);
+  }
+}
+
+.btn__inner {
+  pointer-events: none;
+  border-radius: var(--btn-border-radius);
+  border: var(--btn-border);
+  z-index: 1;
+  padding: var(--btn-padding);
+  grid-area: 1 / 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  overflow: clip;
+}
+
+.btn__text {
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 var(--btn-text-duplicate-distance) 0 currentColor;
+  transition: translate 0.3s var(--btn-ease-hover);
+}
+
+.btn__bg {
+  pointer-events: none;
+  border-radius: var(--btn-border-radius);
+  background-color: var(--btn-color-background);
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  transition: background-color 0.325s var(--btn-ease-hover);
+}
+
+.btn-primary {
+  color: var(--btn-color);
+}
+
+// Core Button block — use theme animation; reset theme.json element-button styles.
+.wp-block-button .wp-block-button__link.btn {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  min-height: 0;
+  text-decoration: none;
+}
+
+.wp-block-button .wp-block-button__link.btn-secondary {
+  padding: var(--btn-padding) !important;
+}
+
+// Sand on midnight — service CTA and similar light sections.
+.btn-primary--midnight {
+  --btn-color: var(--wp--preset--color--sand);
+  --btn-color-background: var(--wp--preset--color--midnight);
+  --btn-hover-color: var(--wp--preset--color--sand);
+  --btn-hover-color-background: color-mix(in srgb, var(--wp--preset--color--midnight), white 12%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:is(:hover, :focus-visible),
+  [data-hover]:is(:hover, :focus-visible) .btn {
+    color: var(--btn-hover-color);
+  }
+
+  .btn:is(:hover, :focus-visible) .btn__bg,
+  [data-hover]:is(:hover, :focus-visible) .btn .btn__bg {
+    background-color: var(--btn-hover-color-background);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .btn:is(:hover, :focus-visible) .btn__text,
+  [data-hover]:is(:hover, :focus-visible) .btn .btn__text {
+    translate: 0 calc(var(--btn-text-duplicate-distance) * -1) 0;
+  }
+}
+
+// Outlined secondary (no slide animation).
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-border-radius);
+  border: 3px solid var(--wp--preset--color--midnight);
+  background-color: transparent;
+  color: var(--wp--preset--color--midnight);
+  font-family: var(--wp--preset--font-family--body);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: color-mix(in srgb, var(--wp--preset--color--midnight), transparent 92%);
+    color: var(--wp--preset--color--midnight);
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,166 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$text-and-icons-gutter: clamp(24px, 4.6vw, 80px);
+$text-and-icons-inner-max-width: 1050px;
+$text-and-icons-header-gap: clamp(20px, 1.88vw, 27px);
+$text-and-icons-header-items-gap: clamp(40px, 4.6vw, 66px);
+$text-and-icons-title-max-width: 748px;
+$text-and-icons-intro-max-width: 632px;
+$text-and-icons-items-gap: clamp(40px, 6.1vw, 117px);
+$text-and-icons-item-gap: 17px;
+$text-and-icons-item-max-width: 272px;
+$text-and-icons-icon-size: clamp(56px, 4.86vw, 70px);
+
+.text-and-icons {
+    width: 100%;
+    background-color: $midnight;
+    color: $sand;
+    --text-and-icons-accent: #{$rose-dark};
+
+    &--service-rose-dark {
+        --text-and-icons-accent: #{$rose-dark};
+    }
+
+    &--service-moss-dark {
+        --text-and-icons-accent: #{$moss-dark};
+    }
+
+    &--service-sky-dark {
+        --text-and-icons-accent: #{$sky-dark};
+    }
+
+    .label {
+        color: var(--text-and-icons-accent);
+    }
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $text-and-icons-header-items-gap;
+        max-width: $text-and-icons-inner-max-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: $text-and-icons-gutter;
+        padding-right: $text-and-icons-gutter;
+        text-align: center;
+        word-break: break-word;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $text-and-icons-header-gap;
+        width: 100%;
+    }
+
+    &__title {
+        margin: 0;
+        max-width: $text-and-icons-title-max-width;
+        font-family: var(--wp--preset--font-family--heading);
+        font-size: clamp(28px, 2.78vw, 40px);
+        font-weight: 400;
+        line-height: 1.2;
+        color: $sand;
+    }
+
+    &__intro {
+        margin: 0;
+        max-width: $text-and-icons-intro-max-width;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(16px, 1.39vw, 20px);
+        font-weight: 400;
+        line-height: 1.2;
+        color: $sand;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(40px, 5vw, 60px);
+        width: 100%;
+
+        @include respond-to(lg) {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            gap: $text-and-icons-items-gap;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $text-and-icons-item-gap;
+        width: 100%;
+        max-width: $text-and-icons-item-max-width;
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: $text-and-icons-icon-size;
+        color: var(--text-and-icons-accent);
+    }
+
+    &__icon-img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+
+    &__item-title {
+        margin: 0;
+        width: 100%;
+        font-family: var(--wp--preset--font-family--heading);
+        font-size: clamp(18px, 1.39vw, 20px);
+        font-weight: 400;
+        line-height: 1.2;
+        color: $sand;
+    }
+
+    &__item-content {
+        margin: 0;
+        width: 100%;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(16px, 1.25vw, 18px);
+        font-weight: 400;
+        line-height: 1.2;
+        color: $sand;
+
+        p {
+            margin: 0 0 20px 0;
+            opacity: 0.7;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &--service-rose-dark,
+    &--service-moss-dark,
+    &--service-sky-dark {
+        .text-and-icons__item-content a {
+            color: var(--text-and-icons-accent);
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-skip-ink: none;
+            text-underline-position: from-font;
+
+            &:hover,
+            &:focus-visible {
+                color: color-mix(in srgb, var(--text-and-icons-accent), white 20%);
+            }
+        }
+    }
+}

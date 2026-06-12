@@ -1,0 +1,411 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$team-gutter: clamp(24px, 4.6vw, 80px);
+$team-grid-gap: clamp(24px, 2.8vw, 40px);
+$team-photo-size: clamp(280px, 26.6vw, 404px);
+$team-photo-cols-3-size: 404px;
+$team-photo-cols-4-width: 404px;
+$team-photo-cols-4-height: 404px;
+$team-photo-radius: 12px;
+$team-photo-hover-scale: 1.06;
+$team-photo-hover-duration: 0.6s;
+$team-stack-gap: 10px;
+$team-details-offset: 20px;
+$team-modal-max-width: 720px;
+$team-modal-padding: clamp(32px, 4vw, 48px);
+
+.team {
+    width: 100%;
+
+    &--bg-midnight {
+        background-color: $midnight;
+        color: $white-pure;
+
+        .team__name {
+            color: $white-pure;
+        }
+
+        .team__position {
+            color: color-mix(in srgb, $white-pure, transparent 30%);
+        }
+
+        .team__learn-more {
+            color: $sand;
+        }
+
+        .team__linkedin {
+            color: $glass;
+        }
+    }
+
+    &--bg-sand {
+        background-color: $sand;
+        color: $midnight;
+
+        .team__name {
+            color: $midnight;
+        }
+
+        .team__position {
+            color: color-mix(in srgb, $midnight, transparent 30%);
+        }
+
+        .team__learn-more {
+            color: $midnight;
+        }
+
+        .team__linkedin {
+            color: $glass;
+        }
+    }
+
+    &__inner {
+        max-width: $container-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: $team-gutter;
+        padding-right: $team-gutter;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(40px, 5vw, 60px) $team-grid-gap;
+        justify-content: center;
+
+        @include respond-to(md) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @include respond-to(lg) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    &--cols-4 &__grid {
+        @include respond-to(lg) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    &--cols-3 &__photo,
+    &--cols-3 &__photo-trigger {
+        @include respond-to(lg) {
+            max-width: $team-photo-cols-3-size;
+        }
+    }
+
+    &--cols-3 &__photo {
+        @include respond-to(lg) {
+            aspect-ratio: 1 / 1;
+        }
+    }
+
+    &--cols-4 &__photo,
+    &--cols-4 &__photo-trigger {
+        @include respond-to(lg) {
+            max-width: $team-photo-cols-4-width;
+        }
+    }
+
+    &--cols-4 &__photo {
+        @include respond-to(lg) {
+            aspect-ratio: $team-photo-cols-4-width / $team-photo-cols-4-height;
+        }
+    }
+
+    &__member {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $team-stack-gap;
+        min-width: 0;
+    }
+
+    &__photo-trigger {
+        display: block;
+        width: 100%;
+        max-width: $team-photo-size;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    &__photo {
+        display: block;
+        width: 100%;
+        max-width: $team-photo-size;
+        aspect-ratio: 1 / 1;
+        border-radius: $team-photo-radius;
+        overflow: hidden;
+        background-color: color-mix(in srgb, currentColor, transparent 90%);
+
+        picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__photo-img,
+    &__photo picture img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        transform-origin: center center;
+        transition: transform $team-photo-hover-duration ease;
+        will-change: transform;
+    }
+
+    &__member--has-modal:has([data-team-modal-trigger]:hover) &__photo-img,
+    &__member--has-modal:has([data-team-modal-trigger]:focus-visible) &__photo-img,
+    &__member--has-modal:has([data-team-modal-trigger]:hover) &__photo picture img,
+    &__member--has-modal:has([data-team-modal-trigger]:focus-visible) &__photo picture img {
+        transform: scale($team-photo-hover-scale);
+    }
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: $team-stack-gap;
+        width: 100%;
+        padding-top: $team-details-offset;
+    }
+
+    &__name-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__name {
+        margin: 0;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(22px, 1.8vw, 26px);
+        font-weight: 600;
+        line-height: 1.2;
+        word-break: break-word;
+
+        &--trigger {
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            text-align: left;
+            transition: opacity 0.2s ease;
+
+            &:hover,
+            &:focus-visible {
+                opacity: 0.85;
+            }
+        }
+    }
+
+    &__linkedin {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            opacity: 1;
+            text-decoration: none;
+        }
+    }
+
+    &__linkedin-icon {
+        display: block;
+        width: clamp(18px, 1.4vw, 22px);
+        height: clamp(18px, 1.4vw, 22px);
+    }
+
+    &__position {
+        margin: 0;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(18px, 1.39vw, 20px);
+        font-weight: 600;
+        line-height: 1.1;
+        opacity: 0.7;
+        word-break: break-word;
+    }
+
+    &__learn-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(18px, 1.39vw, 20px);
+        font-weight: 700;
+        line-height: 1.2;
+        text-align: left;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            opacity: 0.85;
+        }
+
+        &--static {
+            cursor: default;
+            pointer-events: none;
+
+            &:hover,
+            &:focus-visible {
+                opacity: 1;
+            }
+        }
+    }
+
+    &--editor-preview &__modal {
+        display: none !important;
+    }
+
+    &__learn-more-arrow {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+
+        svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__modal {
+        position: fixed;
+        inset: 0;
+        z-index: $z-index-modal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: $team-gutter;
+
+        &[hidden] {
+            display: none;
+        }
+    }
+
+    &__modal-overlay {
+        position: absolute;
+        inset: 0;
+        background-color: color-mix(in srgb, $midnight, transparent 15%);
+    }
+
+    &__modal-dialog {
+        position: relative;
+        z-index: 1;
+        width: min(100%, #{$team-modal-max-width});
+        max-height: min(85svh, 800px);
+        overflow: auto;
+        padding: $team-modal-padding;
+        border-radius: $team-photo-radius;
+        background-color: $sand;
+        color: $midnight;
+        box-shadow: 0 24px 80px color-mix(in srgb, $midnight, transparent 60%);
+    }
+
+    &__modal-close {
+        position: absolute;
+        top: clamp(16px, 2vw, 24px);
+        right: clamp(16px, 2vw, 24px);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: none;
+        color: $midnight;
+        cursor: pointer;
+        transition: background-color 0.2s ease, opacity 0.2s ease;
+
+        &:hover,
+        &:focus-visible {
+            background-color: color-mix(in srgb, $midnight, transparent 92%);
+        }
+    }
+
+    &__modal-title {
+        margin: 0 48px 24px 0;
+        padding-right: 8px;
+        font-family: var(--wp--preset--font-family--heading);
+        font-size: clamp(24px, 2.2vw, 32px);
+        font-weight: 400;
+        line-height: 1.2;
+        color: $midnight;
+        word-break: break-word;
+    }
+
+    &__modal-body {
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(16px, 1.25vw, 18px);
+        font-weight: 400;
+        line-height: 1.5;
+        color: color-mix(in srgb, $midnight, transparent 15%);
+
+        > *:first-child {
+            margin-top: 0;
+        }
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+
+        p {
+            margin: 0 0 1em;
+        }
+
+        a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: underline;
+
+            &:hover,
+            &:focus-visible {
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+body.team-modal-open {
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .team {
+        &__member--has-modal:has([data-team-modal-trigger]:hover) &__photo-img,
+        &__member--has-modal:has([data-team-modal-trigger]:focus-visible) &__photo-img,
+        &__member--has-modal:has([data-team-modal-trigger]:hover) &__photo picture img,
+        &__member--has-modal:has([data-team-modal-trigger]:focus-visible) &__photo picture img {
+            transform: none;
+        }
+
+        &__photo-img,
+        &__photo picture img {
+            transition: none;
+            will-change: auto;
+        }
+    }
+}

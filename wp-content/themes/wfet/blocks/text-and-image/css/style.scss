@@ -1,0 +1,258 @@
+@import "../../../src/scss/partials/variables";
+@import "../../../src/scss/partials/mixins";
+
+$text-and-image-gutter: clamp(24px, 4.6vw, 80px);
+$text-and-image-column-gap: clamp(40px, 7.6vw, 110px);
+$text-and-image-body-max-width: 700px;
+$text-and-image-content-max-width: 601px;
+$text-and-image-media-size: clamp(280px, 50%, 693px);
+$text-and-image-header-offset: clamp(80px, 7vw, 110px);
+$text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
+
+.text-and-image {
+    width: 100%;
+
+    &--hero {
+        position: relative;
+        margin-top: calc(-1 * #{$text-and-image-header-offset}) !important;
+        z-index: 0;
+
+        .text-and-image__inner {
+            padding-top: calc(#{$text-and-image-hero-padding-y} + #{$text-and-image-header-offset});
+            padding-bottom: $text-and-image-hero-padding-y;
+        }
+    }
+
+    &--bg-midnight {
+        background-color: $midnight;
+        color: $sand;
+
+        .label {
+            color: $glass;
+        }
+    }
+
+    &--bg-ocean {
+        background-color: $ocean;
+        color: $sand;
+
+        .label {
+            color: $glass;
+        }
+    }
+
+    &--bg-glass {
+        background-color: $glass;
+        color: $sand;
+
+        .label {
+            color: $sand;
+        }
+    }
+
+    &--bg-sand {
+        background-color: $sand;
+        color: $midnight;
+
+        .label {
+            color: $midnight;
+        }
+    }
+
+    &--bg-rose-dark {
+        background-color: $rose-dark;
+        color: $midnight;
+
+        .label {
+            color: $midnight;
+        }
+    }
+
+    &--bg-moss-dark {
+        background-color: $moss-dark;
+        color: $midnight;
+
+        .label {
+            color: $midnight;
+        }
+    }
+
+    &--bg-sky-dark {
+        background-color: $sky-dark;
+        color: $midnight;
+
+        .label {
+            color: $midnight;
+        }
+    }
+
+    &--bg-midnight,
+    &--bg-ocean,
+    &--bg-glass {
+        .btn-primary {
+            --btn-color: var(--wp--preset--color--sand);
+            --btn-hover-color: var(--wp--preset--color--sand);
+        }
+
+        .btn-secondary {
+            border-color: var(--wp--preset--color--sand);
+            color: var(--wp--preset--color--sand);
+
+            &:hover,
+            &:focus-visible {
+                background-color: color-mix(in srgb, var(--wp--preset--color--sand), transparent 92%);
+                color: var(--wp--preset--color--sand);
+                border-color: var(--wp--preset--color--sand);
+            }
+        }
+    }
+
+    &--bg-sand,
+    &--bg-rose-dark,
+    &--bg-moss-dark,
+    &--bg-sky-dark {
+        .btn-secondary {
+            border-color: var(--wp--preset--color--midnight);
+            color: var(--wp--preset--color--midnight);
+
+            &:hover,
+            &:focus-visible {
+                background-color: color-mix(in srgb, var(--wp--preset--color--midnight), transparent 92%);
+                color: var(--wp--preset--color--midnight);
+                border-color: var(--wp--preset--color--midnight);
+            }
+        }
+    }
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(40px, 6vw, 80px);
+        max-width: $container-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 $text-and-image-gutter;
+
+        @include respond-to(lg) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: $text-and-image-column-gap;
+        }
+    }
+
+    &--image-right &__inner {
+        @include respond-to(lg) {
+            flex-direction: row-reverse;
+        }
+    }
+
+    &__media {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: $text-and-image-media-size;
+        //aspect-ratio: 1 / 1;
+
+        picture,
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__image-img,
+    &__media picture img,
+    &__media > img {
+        border-radius: 10px;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+
+    &__body {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: clamp(20px, 3vw, 30px);
+        width: 100%;
+        max-width: $text-and-image-body-max-width;
+
+        @include respond-to(lg) {
+            flex: 0 1 $text-and-image-body-max-width;
+            justify-content: space-between;
+        }
+    }
+
+    &__title {
+        margin: 0;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(28px, 2.78vw, 40px);
+        font-weight: 600;
+        line-height: 1;
+        color: inherit;
+        word-break: break-word;
+
+        p {
+            margin: 0;
+            font-size: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
+        }
+
+        u,
+        a {
+            text-decoration: underline;
+            text-decoration-skip-ink: none;
+            text-underline-position: from-font;
+            color: inherit;
+        }
+    }
+
+    &__content {
+        width: 100%;
+        max-width: $text-and-image-content-max-width;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(16px, 1.39vw, 20px);
+        font-weight: 400;
+        line-height: 1.3;
+        color: inherit;
+        word-break: break-word;
+
+        > *:first-child {
+            margin-top: 0;
+        }
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+
+        p {
+            margin: 0 0 1em;
+            font-size: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    &__button.btn {
+        min-width: clamp(180px, 14.6vw, 210px);
+    }
+}

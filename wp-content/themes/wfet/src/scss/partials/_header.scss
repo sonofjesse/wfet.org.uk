@@ -1,0 +1,236 @@
+$header-desktop-breakpoint: $breakpoint-lg;
+
+#masthead {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: clamp(24px, 2.5vw, 40px) 0 0 0;
+
+  .container {
+    max-width: $container-width;
+    margin: 0 auto;
+    padding-left: clamp(24px, 4.6vw, 80px);
+    padding-right: clamp(24px, 4.6vw, 80px);
+  }
+
+  .nav-container {
+    min-height: clamp(56px, 4.5vw, 70px);
+  }
+
+  // Logo
+  .logo-container {
+    z-index: 1001;
+    flex-shrink: 0;
+
+    .logo {
+      display: block;
+      transition: opacity 0.3s ease-in-out;
+
+      img,
+      svg {
+        display: block;
+        width: auto;
+        height: auto;
+        max-height: clamp(48px, 4vw, 64px);
+        max-width: clamp(180px, 14.5vw, 245px);
+        transition: opacity 0.3s ease-in-out;
+      }
+    }
+  }
+
+  // Desktop navigation
+  .desktop-nav {
+    align-items: center;
+    position: relative;
+  }
+
+  .header-menu {
+    display: none;
+  }
+
+  @media (min-width: $header-desktop-breakpoint) {
+    .header-menu {
+      display: block;
+      margin-left: auto;
+    }
+
+    #header-menu,
+    .menu-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: clamp(24px, 2.8vw, 45px);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      > .menu-item {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        > a {
+          display: inline-flex;
+          align-items: center;
+          gap: clamp(6px, 0.45vw, 10px);
+          font-family: var(--wp--preset--font-family--body);
+          font-size: var(--wp--preset--font-size--nav);
+          font-weight: 700;
+          line-height: 1.3;
+          color: $white-pure;
+          text-decoration: none;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+
+          &:hover,
+          &:focus-visible {
+            opacity: 0.85;
+            color: var(--wp--preset--color--glass);
+            text-decoration: none;
+          }
+        }
+
+        &.menu-item-has-children > a::after {
+          content: "";
+          flex-shrink: 0;
+          width: var(--wp--preset--font-size--nav-icon);
+          height: var(--wp--preset--font-size--nav-icon);
+          margin-top: 0.15em;
+          background-color: currentColor;
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23000' d='M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/%3E%3C/svg%3E");
+          mask-repeat: no-repeat;
+          mask-position: center;
+          mask-size: contain;
+          -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23000' d='M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z'/%3E%3C/svg%3E");
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-position: center;
+          -webkit-mask-size: contain;
+        }
+
+        &.button__cta > a,
+        &.menu-item-cta > a {
+          background-color: $glass;
+          color: $white-pure;
+          border-radius: 100px;
+          padding: clamp(14px, 1.25vw, 18px) clamp(24px, 2.5vw, 35px);
+          opacity: 1;
+
+          &:hover,
+          &:focus-visible {
+            background-color: color-mix(in srgb, $glass, $midnight 12%);
+            color: $white-pure;
+            opacity: 1;
+          }
+        }
+
+        &.button__cta > a::after,
+        &.menu-item-cta > a::after {
+          display: none;
+        }
+
+        &.menu-item-has-children {
+          position: relative;
+
+          // Hover bridge so the pointer can reach the panel
+          &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 12px;
+          }
+
+          > .sub-menu,
+          > .sub-menu-inner.normal {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            min-width: 220px;
+            padding: clamp(10px, 0.8vw, 14px) 0;
+            margin: 0;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            z-index: 100;
+            background-color: color-mix(in srgb, $midnight 82%, transparent);
+            border: 1px solid color-mix(in srgb, $white-pure 18%, transparent);
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 12px 40px color-mix(in srgb, $midnight 40%, transparent);
+          }
+
+          > .sub-menu {
+            list-style: none;
+          }
+
+          > .sub-menu-inner.normal > .sub-menu {
+            position: static;
+            transform: none;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            min-width: 0;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+          }
+
+          > .sub-menu-inner.mega {
+            display: none;
+          }
+
+          &:hover,
+          &:focus-within {
+            > .sub-menu,
+            > .sub-menu-inner.normal {
+              opacity: 1;
+              visibility: visible;
+              pointer-events: auto;
+              transform: translateX(-50%) translateY(0);
+            }
+          }
+
+          .sub-menu .menu-item {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            > a {
+              display: block;
+              padding: clamp(8px, 0.6vw, 12px) clamp(16px, 1.2vw, 20px);
+              font-family: var(--wp--preset--font-family--body);
+              font-size: var(--wp--preset--font-size--nav);
+              font-weight: 400;
+              line-height: 1.3;
+              color: $white-pure;
+              text-decoration: none;
+              white-space: nowrap;
+              transition: background-color 0.15s ease;
+
+              &:hover,
+              &:focus-visible {
+                background-color: color-mix(in srgb, $white-pure 10%, transparent);
+                color: $white-pure;
+                text-decoration: none;
+              }
+
+              &.active {
+                background-color: color-mix(in srgb, $glass 35%, transparent);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

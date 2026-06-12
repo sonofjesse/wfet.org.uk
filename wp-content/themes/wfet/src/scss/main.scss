@@ -1,0 +1,59 @@
+/**
+ * SOJ Core Modern - Main SCSS Entry Point
+ * Imports all SCSS modules
+ */
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+}
+
+// Things unrealted to the main content (e.g. Header, Footer, etc.)
+
+@import "partials/variables";
+@import "partials/mixins";
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+}
+
+@import "partials/helpers";
+@import "partials/sitewide";
+@import "partials/animations";
+@import "partials/smooth-scroll";
+@import "partials/mobile-menu";
+@import "partials/admin";
+@import "partials/single_post";
+
+// Palette background contrast — top-level so .has-*-background-color matches the
+// block element itself (not only descendants) and works in the block editor iframe.
+@import "partials/brand-colors";
+@import "partials/news-card";
+@import "partials/news-filters";
+
+// Animated buttons — top-level import so :root / .soj-frontend variables apply on <body>.
+@import "partials/buttons";
+
+// Things within the main content
+.wp-block,
+.soj-frontend {
+
+    // Import foundation
+    @import "partials/forms";
+    @import "partials/typography";
+    @import "partials/layout";
+    @import "partials/tables";
+    @import "partials/faq";
+
+}
+
+// Import pages
+@import "pages/404";
+@import "pages/category-archive";
+@import "partials/header";
+@import "partials/footer";

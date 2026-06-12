@@ -1,0 +1,57 @@
+.gform-theme--framework {
+  .gform_fields {
+    column-gap: 0;
+    row-gap: 20px;
+  }
+
+  label,
+  legend {
+    color: $light_gray !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .gfield_required {
+    font-size: 16px !important;
+    color: $white !important;
+    font-weight: 600 !important;
+  }
+
+  label, legend {
+    font-size: 18px !important;
+    color: $white !important;
+    font-weight: 700 !important;
+  }
+
+  .gfield_description {
+    font-size: 16px !important;
+    line-height: 20px !important;
+    color: $white !important;
+    font-weight: 500 !important;
+    opacity: 0.8 !important;
+  }
+
+  .button {
+    @include button-secondary;
+    margin-top: $spacing-sm !important;
+    background-color: $secondary-color !important;
+    color: $primary-color !important;
+    font-size: 16px !important;
+    padding: 15px 40px !important;
+    &:hover {
+      background-color: $primary-color !important;
+      color: $white !important;
+    }
+  }
+  .ginput_container_text, .ginput_container_email {
+    input {
+      background-color: $black !important;
+      color: $white !important;
+      border: none !important;
+      border-bottom: 1px solid $light_grey !important;
+      border-radius: 0 !important;
+    }
+  }
+}
