@@ -149,8 +149,15 @@ $content-columns-resource-icon-height: 50px;
             display: block;
         }
 
+        picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
         img,
-        .content-columns__image-img {
+        .content-columns__image-img,
+        picture img {
             display: block;
             width: 100%;
             height: 100%;
@@ -164,7 +171,8 @@ $content-columns-resource-icon-height: 50px;
 
     @media (prefers-reduced-motion: reduce) {
         &__image img,
-        &__image .content-columns__image-img {
+        &__image .content-columns__image-img,
+        &__image picture img {
             animation: none;
             will-change: auto;
         }

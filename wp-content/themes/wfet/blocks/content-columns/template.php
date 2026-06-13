@@ -315,14 +315,14 @@ $render_column_image = static function ($image, $img_class, $is_preview, &$displ
     ]);
 };
 
-$service_graphic_id = 0;
-if (is_array($service_graphic) && !empty($service_graphic['ID'])) {
-    $service_graphic_id = (int) $service_graphic['ID'];
-} elseif (is_numeric($service_graphic)) {
-    $service_graphic_id = (int) $service_graphic;
+$service_graphic_url = '';
+if (is_array($service_graphic) && !empty($service_graphic['url'])) {
+    $service_graphic_url = (string) $service_graphic['url'];
+} elseif (is_numeric($service_graphic) && (int) $service_graphic > 0) {
+    $service_graphic_url = (string) wp_get_attachment_url((int) $service_graphic);
 }
 
-if ($service_graphic_id > 0) {
+if ($service_graphic_url !== '') {
     $className .= ' content-columns--has-service-graphic';
 }
 
@@ -554,20 +554,15 @@ $render_column = static function ($column, $modifier, $is_preview) use ($column_
 ?>
 
 <section id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr(trim($className)); ?>">
-    <?php if ($service_graphic_id > 0) : ?>
+    <?php if ($service_graphic_url !== '') : ?>
         <div class="content-columns__image" aria-hidden="true">
-            <?php
-            echo soj_picture($service_graphic, [
-                0 => [1300, 1300, true],
-            ], [
-                'img_class'             => 'content-columns__image-img',
-                'alt'                   => '',
-                'use_width_descriptors' => true,
-                'sizes'                 => '60vw',
-                'loading'               => $is_block_preview ? 'eager' : 'lazy',
-                'decoding'              => 'async',
-            ]);
-            ?>
+            <img
+                class="content-columns__image-img"
+                src="<?php echo esc_url($service_graphic_url); ?>"
+                alt=""
+                loading="<?php echo $is_block_preview ? 'eager' : 'lazy'; ?>"
+                decoding="async"
+            />
         </div>
     <?php endif; ?>
 
