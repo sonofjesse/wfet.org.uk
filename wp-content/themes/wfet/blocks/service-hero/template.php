@@ -71,9 +71,10 @@ $service_icon = get_field('service_icon', $post_id);
  * @param array          $sizes       soj_picture size map.
  * @param string         $sizes_attr  sizes attribute value.
  * @param bool           $is_preview  Whether the block is in editor preview.
+ * @param bool           $is_lcp      Whether this image is the page LCP candidate.
  * @return string
  */
-$render_image = static function ($image, $img_class, $sizes, $sizes_attr, $is_preview) {
+$render_image = static function ($image, $img_class, $sizes, $sizes_attr, $is_preview, $is_lcp = false) {
     $image_id  = 0;
     $image_alt = '';
 
@@ -92,7 +93,8 @@ $render_image = static function ($image, $img_class, $sizes, $sizes_attr, $is_pr
         $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: '';
     }
 
-    $loading = $is_preview ? 'eager' : 'lazy';
+    $is_block_preview = !empty($is_preview);
+    $loading          = ($is_block_preview || $is_lcp) ? 'eager' : 'lazy';
 
     return soj_picture($image_id, $sizes, [
         'img_class'             => $img_class,
@@ -101,8 +103,9 @@ $render_image = static function ($image, $img_class, $sizes, $sizes_attr, $is_pr
         'sizes'                 => $sizes_attr,
         'loading'               => $loading,
         'decoding'              => 'async',
-        'fetchpriority'         => $is_preview ? '' : 'low',
-        'defer_browser_load'    => !$is_preview,
+        'fetchpriority'         => $is_block_preview ? '' : ($is_lcp ? 'high' : 'low'),
+        'preload'               => !$is_block_preview && $is_lcp,
+        'defer_browser_load'    => !$is_block_preview && !$is_lcp,
     ]);
 };
 
@@ -111,7 +114,8 @@ $primary_image_markup = $render_image(
     'service-hero__primary-img',
     [0 => [675, 786, true]],
     '(min-width: 992px) 675px, (min-width: 768px) 50vw, 100vw',
-    !empty($is_preview)
+    !empty($is_preview),
+    true
 );
 
 $secondary_image_markup = $render_image(
@@ -119,7 +123,8 @@ $secondary_image_markup = $render_image(
     'service-hero__secondary-img',
     [0 => [440, 288, true]],
     '(min-width: 992px) 440px, (min-width: 768px) 40vw, 100vw',
-    !empty($is_preview)
+    !empty($is_preview),
+    false
 );
 
 if (!$post_title && !$title && !$content && $primary_image_markup === '' && $secondary_image_markup === '') {

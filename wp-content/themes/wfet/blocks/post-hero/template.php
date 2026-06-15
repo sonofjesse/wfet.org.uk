@@ -79,8 +79,6 @@ if ($hero_image_id > 0 && $hero_image_alt === $post_title) {
 $hero_image_markup = '';
 
 if ($hero_image_id > 0) {
-    $loading = !empty($is_preview) ? 'eager' : 'eager';
-
     $hero_image_markup = soj_picture(
         $hero_image_id,
         [
@@ -91,9 +89,10 @@ if ($hero_image_id > 0) {
             'alt'                   => $hero_image_alt,
             'use_width_descriptors' => true,
             'sizes'                 => '100vw',
-            'loading'               => $loading,
+            'loading'               => 'eager',
             'decoding'              => 'async',
             'fetchpriority'         => !empty($is_preview) ? '' : 'high',
+            'preload'               => empty($is_preview),
         ]
     );
 }

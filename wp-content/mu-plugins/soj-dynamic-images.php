@@ -1830,9 +1830,19 @@ function soj_render_responsive_picture($attachment_id, array $args = [])
         if (!isset($preloaded_srcs[$primary_image['src']])) {
             $preloaded_srcs[$primary_image['src']] = true;
 
+            $preload_fetchpriority = (!empty($args['fetchpriority']) && $args['fetchpriority'] === 'high') ? 'high' : '';
+
             add_action(
                 'wp_head',
-                function () use ($primary_image) {
+                function () use ($primary_image, $preload_fetchpriority) {
+                    if ($preload_fetchpriority === 'high') {
+                        printf(
+                            '<link rel="preload" as="image" href="%s" fetchpriority="high" />',
+                            esc_url($primary_image['src'])
+                        );
+                        return;
+                    }
+
                     printf(
                         '<link rel="preload" as="image" href="%s" />',
                         esc_url($primary_image['src'])

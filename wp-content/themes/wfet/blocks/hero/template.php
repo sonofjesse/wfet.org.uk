@@ -66,21 +66,40 @@ $margin_bottom = get_field('margin_bottom') ?: 'mb-0';
 
     </div>
 
-    <?php if ($image): ?>
-        <div class="hero__image">
-            <?php
-            echo wp_get_attachment_image(
-                $image['ID'],
-                'full',
-                false,
+    <?php if ($image) :
+        $hero_image_id  = is_array($image) && !empty($image['ID']) ? (int) $image['ID'] : 0;
+        $hero_image_alt = is_array($image) && !empty($image['alt']) ? (string) $image['alt'] : '';
+
+        if ($hero_image_id > 0 && $hero_image_alt === '') {
+            $hero_image_alt = get_post_meta($hero_image_id, '_wp_attachment_image_alt', true) ?: '';
+        }
+
+        $hero_image_markup = $hero_image_id > 0
+            ? soj_picture(
+                $hero_image_id,
                 [
-                    'class' => 'hero__image-img',
-                    'loading' => 'eager',
-                    'decoding' => 'async',
+                    1200 => [1300, 1300, true],
+                    768  => [800, 800, true],
+                    0    => [480, 480, true],
+                ],
+                [
+                    'img_class'             => 'hero__image-img',
+                    'alt'                   => $hero_image_alt,
+                    'use_width_descriptors' => true,
+                    'sizes'                 => '(min-width: 1460px) 1300px, (min-width: 1200px) 65vw, 95vw',
+                    'loading'               => 'eager',
+                    'decoding'              => 'async',
+                    'fetchpriority'         => !empty($is_preview) ? '' : 'high',
+                    'preload'               => empty($is_preview),
                 ]
-            );
-            ?>
-        </div>
+            )
+            : '';
+        ?>
+        <?php if ($hero_image_markup !== '') : ?>
+            <div class="hero__image">
+                <?php echo $hero_image_markup; ?>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 
 </section>
