@@ -108,70 +108,6 @@ function soj_disable_resource_block_editor($use_block_editor, $post_type)
 add_filter('use_block_editor_for_post_type', 'soj_disable_resource_block_editor', 10, 2);
 
 /**
- * Register Team Custom Post Type
- */
-function soj_register_team_post_type()
-{
-    $labels = array(
-        'name'                  => _x('Team', 'Post Type General Name', 'soj-core'),
-        'singular_name'         => _x('Team Member', 'Post Type Singular Name', 'soj-core'),
-        'menu_name'             => __('Team', 'soj-core'),
-        'name_admin_bar'        => __('Team Member', 'soj-core'),
-        'archives'              => __('Team Archives', 'soj-core'),
-        'attributes'            => __('Team Attributes', 'soj-core'),
-        'parent_item_colon'     => __('Parent Team Member:', 'soj-core'),
-        'all_items'             => __('All Team Members', 'soj-core'),
-        'add_new_item'          => __('Add New Team Member', 'soj-core'),
-        'add_new'               => __('Add New', 'soj-core'),
-        'new_item'              => __('New Team Member', 'soj-core'),
-        'edit_item'             => __('Edit Team Member', 'soj-core'),
-        'update_item'           => __('Update Team Member', 'soj-core'),
-        'view_item'             => __('View Team Member', 'soj-core'),
-        'view_items'            => __('View Team Members', 'soj-core'),
-        'search_items'          => __('Search Team Members', 'soj-core'),
-        'not_found'             => __('Not found', 'soj-core'),
-        'not_found_in_trash'    => __('Not found in Trash', 'soj-core'),
-        'featured_image'        => __('Featured Image', 'soj-core'),
-        'set_featured_image'    => __('Set featured image', 'soj-core'),
-        'remove_featured_image' => __('Remove featured image', 'soj-core'),
-        'use_featured_image'    => __('Use as featured image', 'soj-core'),
-        'insert_into_item'      => __('Insert into team member', 'soj-core'),
-        'uploaded_to_this_item' => __('Uploaded to this team member', 'soj-core'),
-        'items_list'            => __('Team members list', 'soj-core'),
-        'items_list_navigation' => __('Team members list navigation', 'soj-core'),
-        'filter_items_list'     => __('Filter team members list', 'soj-core'),
-    );
-
-    $args = array(
-        'label'               => __('Team', 'soj-core'),
-        'description'         => __('Team members', 'soj-core'),
-        'labels'              => $labels,
-        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt'),
-        'hierarchical'        => false,
-        'public'              => true,
-        'show_ui'             => true,
-        'show_in_menu'        => true,
-        'menu_position'       => 5,
-        'menu_icon'           => 'dashicons-groups',
-        'show_in_admin_bar'   => true,
-        'show_in_nav_menus'   => true,
-        'can_export'          => true,
-        'has_archive'         => true,
-        'exclude_from_search' => false,
-        'publicly_queryable'  => true,
-        'capability_type'     => 'post',
-        'show_in_rest'        => true,
-        'rewrite'             => array(
-            'slug'       => 'team',
-            'with_front' => false,
-        ),
-    );
-
-    register_post_type('team', $args);
-}
-add_action('init', 'soj_register_team_post_type');
-
-/**
  * Register Services Custom Post Type
  */
 function soj_register_services_post_type()
@@ -236,6 +172,95 @@ function soj_register_services_post_type()
 add_action('init', 'soj_register_services_post_type');
 
 /**
+ * Register Insights Custom Post Type
+ */
+function soj_register_insights_post_type()
+{
+    $labels = array(
+        'name'                  => _x('Insights', 'Post Type General Name', 'soj-core'),
+        'singular_name'         => _x('Insight', 'Post Type Singular Name', 'soj-core'),
+        'menu_name'             => __('Insights', 'soj-core'),
+        'name_admin_bar'        => __('Insight', 'soj-core'),
+        'archives'              => __('Insight Archives', 'soj-core'),
+        'attributes'            => __('Insight Attributes', 'soj-core'),
+        'parent_item_colon'     => __('Parent Insight:', 'soj-core'),
+        'all_items'             => __('All Insights', 'soj-core'),
+        'add_new_item'          => __('Add New Insight', 'soj-core'),
+        'add_new'               => __('Add New', 'soj-core'),
+        'new_item'              => __('New Insight', 'soj-core'),
+        'edit_item'             => __('Edit Insight', 'soj-core'),
+        'update_item'           => __('Update Insight', 'soj-core'),
+        'view_item'             => __('View Insight', 'soj-core'),
+        'view_items'            => __('View Insights', 'soj-core'),
+        'search_items'          => __('Search Insights', 'soj-core'),
+        'not_found'             => __('Not found', 'soj-core'),
+        'not_found_in_trash'    => __('Not found in Trash', 'soj-core'),
+        'featured_image'        => __('Featured Image', 'soj-core'),
+        'set_featured_image'    => __('Set featured image', 'soj-core'),
+        'remove_featured_image' => __('Remove featured image', 'soj-core'),
+        'use_featured_image'    => __('Use as featured image', 'soj-core'),
+        'insert_into_item'      => __('Insert into insight', 'soj-core'),
+        'uploaded_to_this_item' => __('Uploaded to this insight', 'soj-core'),
+        'items_list'            => __('Insights list', 'soj-core'),
+        'items_list_navigation' => __('Insights list navigation', 'soj-core'),
+        'filter_items_list'     => __('Filter insights list', 'soj-core'),
+    );
+
+    $args = array(
+        'label'               => __('Insights', 'soj-core'),
+        'description'         => __('Insights', 'soj-core'),
+        'labels'              => $labels,
+        'supports'            => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'menu_position'       => 7,
+        'menu_icon'           => 'dashicons-lightbulb',
+        'show_in_admin_bar'   => true,
+        'show_in_nav_menus'   => true,
+        'can_export'          => true,
+        'has_archive'         => false,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'capability_type'     => 'post',
+        'show_in_rest'        => true,
+        'rewrite'             => array(
+            'slug'       => 'insight',
+            'with_front' => false,
+        ),
+    );
+
+    register_post_type('insight', $args);
+}
+add_action('init', 'soj_register_insights_post_type');
+
+/**
+ * Register Insights Category taxonomy
+ */
+function soj_register_insights_category_taxonomy()
+{
+    register_taxonomy(
+        'insights-category',
+        array('insight'),
+        array(
+            'hierarchical'      => true,
+            'labels'            => array(
+                'name'          => _x('Insights Categories', 'taxonomy general name', 'soj-core'),
+                'singular_name' => _x('Insights Category', 'taxonomy singular name', 'soj-core'),
+                'menu_name'     => __('Categories', 'soj-core'),
+            ),
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+            'rewrite'           => array('slug' => 'insights-category'),
+            'show_in_rest'      => true,
+        )
+    );
+}
+add_action('init', 'soj_register_insights_category_taxonomy');
+
+/**
  * Register custom taxonomies
  */
 /*
@@ -287,8 +312,6 @@ add_action('init', 'soj_register_taxonomies');
  */
 function soj_flush_rewrite_rules()
 {
-    //soj_register_team_post_type();
-    //soj_register_taxonomies();
     flush_rewrite_rules();
 }
 add_action('after_switch_theme', 'soj_flush_rewrite_rules');

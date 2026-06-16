@@ -1,0 +1,105 @@
+@import "../partials/variables";
+@import "../partials/mixins";
+
+$insight-team-profile-gutter: clamp(24px, 4.6vw, 80px);
+$insight-team-profile-padding-y: clamp(40px, 5.4vw, 63px);
+$insight-team-profile-photo-size: clamp(220px, 16.2vw, 280px);
+$insight-team-profile-layout-gap: clamp(32px, 3.5vw, 61px);
+$insight-team-profile-content-gap: clamp(14px, 1.2vw, 20px);
+
+.insight-team-profile {
+    background-color: $sand;
+    color: $midnight;
+
+    &__inner {
+        max-width: $container-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding: $insight-team-profile-padding-y $insight-team-profile-gutter;
+    }
+
+    &__layout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(28px, 4vw, 40px);
+
+        @include respond-to(md) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: $insight-team-profile-layout-gap;
+        }
+    }
+
+    &__media {
+        flex: 0 0 auto;
+    }
+
+    &__photo {
+        width: $insight-team-profile-photo-size;
+        height: $insight-team-profile-photo-size;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: color-mix(in srgb, $midnight, transparent 92%);
+
+        picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__photo-img,
+    &__photo picture img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $insight-team-profile-content-gap;
+        max-width: 100%;
+        text-align: center;
+
+        @include respond-to(md) {
+            align-items: flex-start;
+            text-align: left;
+        }
+    }
+
+    &__title {
+        margin: 0;
+        font-family: var(--wp--preset--font-family--heading);
+        font-size: clamp(24px, 1.74vw, 30px);
+        font-weight: 400;
+        line-height: 1.2;
+        color: $midnight;
+    }
+
+    &__position {
+        margin: 0;
+        font-family: var(--wp--preset--font-family--body);
+        font-size: clamp(18px, 1.16vw, 20px);
+        font-weight: 600;
+        line-height: 1.1;
+        color: $midnight;
+    }
+
+    &__actions {
+        margin-top: clamp(8px, 1vw, 16px);
+    }
+
+    &__button.btn {
+        min-width: clamp(180px, 14.6vw, 210px);
+    }
+}
+
+.single-insight__recent.news {
+    background-color: $midnight;
+}

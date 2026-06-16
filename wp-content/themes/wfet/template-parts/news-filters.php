@@ -14,6 +14,8 @@
  *     @type int       $current_category_id Optional. Term ID for the active category.
  *     @type bool      $ajax                When true, render filter buttons for AJAX filtering.
  *     @type string    $aria_label          Optional. Nav aria-label; defaults to translatable string.
+ *     @type string    $taxonomy            Taxonomy slug for category terms. Default category.
+ *     @type string    $colour_callback     Callable function name for badge colours.
  * }
  */
 
@@ -28,6 +30,8 @@ $defaults = [
     'current_category_id' => 0,
     'ajax'                => false,
     'aria_label'          => '',
+    'taxonomy'            => 'category',
+    'colour_callback'     => 'soj_get_news_category_colour',
 ];
 
 $nav = wp_parse_args(isset($args) && is_array($args) ? $args : [], $defaults);
@@ -52,6 +56,8 @@ if ($categories === []) {
 $current_cat_id = (int) $nav['current_category_id'];
 $aria_label     = (string) $nav['aria_label'];
 $is_ajax        = !empty($nav['ajax']);
+$taxonomy       = (string) $nav['taxonomy'];
+$colour_callback = (string) $nav['colour_callback'];
 $has_active     = $current_cat_id > 0;
 $nav_class      = 'news-filters' . ($has_active ? ' has-active' : '');
 ?>
@@ -64,8 +70,8 @@ $nav_class      = 'news-filters' . ($has_active ? ' has-active' : '');
     <p class="news-filters__label"><?php esc_html_e('Filter by', 'soj-core'); ?></p>
     <div class="news-filters__links">
         <?php foreach ($categories as $cat_term) :
-            $colour = function_exists('soj_get_news_category_colour')
-                ? soj_get_news_category_colour($cat_term)
+            $colour = function_exists($colour_callback)
+                ? $colour_callback($cat_term)
                 : 'moss-dark';
             $is_current_cat = $current_cat_id > 0 && $current_cat_id === (int) $cat_term->term_id;
             $button_class   = 'news-filters__button news-filters__button--' . sanitize_html_class($colour);
@@ -85,7 +91,7 @@ $nav_class      = 'news-filters' . ($has_active ? ' has-active' : '');
                     <?php echo esc_html($cat_term->name); ?>
                 </button>
             <?php else :
-                $category_url = get_category_link($cat_term->term_id);
+                $category_url = get_term_link($cat_term, $taxonomy);
 
                 if (!$category_url || is_wp_error($category_url)) {
                     continue;

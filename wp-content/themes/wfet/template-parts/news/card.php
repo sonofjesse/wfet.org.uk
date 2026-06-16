@@ -28,6 +28,7 @@ $card_args = wp_parse_args(
         'is_preview'    => false,
         'show_category' => true,
         'eager_images'  => false,
+        'taxonomy'      => 'category',
     ]
 );
 ?>

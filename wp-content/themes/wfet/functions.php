@@ -202,29 +202,6 @@ function soj_add_editor_styles()
 }
 add_action('after_setup_theme', 'soj_add_editor_styles', 20);
 
-/**
- * Default block templates for CPT post types.
- *
- * @param array  $args      Post type registration arguments.
- * @param string $post_type Post type name.
- * @return array
- */
-function soj_default_block_templates($args, $post_type)
-{
-    if ('team' === $post_type) {
-        $args['template'] = [
-            ['acf/team-hero', []],
-            ['acf/spacer-block-with-borders', []],
-            ['acf/team-articles', []],
-            ['acf/spacer-block-with-borders', []],
-        ];
-        return $args;
-    }
-
-    return $args;
-}
-add_filter('register_post_type_args', 'soj_default_block_templates', 10, 2);
-
 add_action('enqueue_block_editor_assets', function () {
     // Typekit (Proxima Nova / Proxima Sera) — same kit as the frontend (header.php)
     // so the editor matches the live site.
@@ -247,12 +224,12 @@ function soj_autoload_includes()
         'inc/performance.php',
         'inc/custom-post-types.php',
         'inc/news-category-colours.php',
+        'inc/insights-category-colours.php',
         'inc/resources-category-permalinks.php',
         'inc/block-manager.php',
         //  'inc/security.php',
         'inc/acf-options.php',
         'inc/faq-schema.php',
-        'inc/team-author-schema.php',
     ];
 
     foreach ($includes as $include) {
@@ -760,44 +737,6 @@ function soj_wpseo_sync_page_breadcrumb_ancestors($links)
     return array_merge([$home], $ancestor_crumbs, [$current]);
 }
 add_filter('wpseo_breadcrumb_links', 'soj_wpseo_sync_page_breadcrumb_ancestors', 20);
-
-/**
- * Yoast breadcrumbs on single team: intermediate “Team” crumb sometimes resolves to /resources/team/
- * (wrong). Point it at the real team post type archive (/team/).
- *
- * @param array<int, array<string, mixed>> $links Yoast breadcrumb link rows.
- * @return array<int, array<string, mixed>>
- */
-function soj_wpseo_team_single_breadcrumb_archive_link($links)
-{
-    if (! is_singular('team') || ! is_array($links)) {
-        return $links;
-    }
-
-    $archive = get_post_type_archive_link('team');
-    if (! is_string($archive) || $archive === '') {
-        return $links;
-    }
-
-    foreach ($links as $i => $link) {
-        if (! is_array($link) || empty($link['url'])) {
-            continue;
-        }
-        $url  = (string) $link['url'];
-        $path = wp_parse_url($url, PHP_URL_PATH);
-        $path = is_string($path) ? untrailingslashit($path) : '';
-        if ($path === '') {
-            continue;
-        }
-        // Yoast sometimes emits /resources/team/ for the team hub; CPT archive is /team/.
-        if (strpos($path, '/resources/team') !== false) {
-            $links[ $i ]['url'] = $archive;
-        }
-    }
-
-    return $links;
-}
-add_filter('wpseo_breadcrumb_links', 'soj_wpseo_team_single_breadcrumb_archive_link', 25);
 
 /**
  * Resources hub URLs and the Guides (resource CPT-only) view.

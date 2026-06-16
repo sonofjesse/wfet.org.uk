@@ -120,6 +120,12 @@ function soj_get_allowed_core_blocks($context)
                     'core/pullquote',
                 ]);
                 break;
+            case 'insight':
+                $default_blocks = array_merge($default_blocks, [
+                    'core/quote',
+                    'core/pullquote',
+                ]);
+                break;
         }
     }
 
