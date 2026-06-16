@@ -50,7 +50,7 @@
             "name": "primary_image",
             "aria-label": "",
             "type": "image",
-            "instructions": "Used as the video poster and full-width background when no video is set.",
+            "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -69,53 +69,6 @@
             "mime_types": "",
             "allow_in_bindings": 0,
             "preview_size": "medium"
-        },
-        {
-            "key": "field_6a2b1001da5d3",
-            "label": "Mobile Image",
-            "name": "mobile_image",
-            "aria-label": "",
-            "type": "image",
-            "instructions": "Optional. Replaces the primary image on mobile for the background or video poster.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "array",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": "",
-            "allow_in_bindings": 0,
-            "preview_size": "medium"
-        },
-        {
-            "key": "field_6a2b1002da5d4",
-            "label": "Video",
-            "name": "video",
-            "aria-label": "",
-            "type": "file",
-            "instructions": "Optional background video. Uses the primary image as the desktop poster and the mobile image (or primary) as the mobile poster.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "array",
-            "library": "all",
-            "min_size": "",
-            "max_size": "",
-            "mime_types": "mp4,webm",
-            "allow_in_bindings": 0
         },
         {
             "key": "field_6a1ede22da5d2",
@@ -165,5 +118,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1780502400
+    "modified": 1780407860
 }

@@ -6,18 +6,8 @@
     'use strict';
 
     function initServiceHero() {
-        document.querySelectorAll('.service-hero__video').forEach((video) => {
-            if (!(video instanceof HTMLVideoElement)) {
-                return;
-            }
-
-            video.muted = true;
-            video.defaultMuted = true;
-
-            const playPromise = video.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch(() => {});
-            }
+        document.querySelectorAll('.service-hero').forEach(block => {
+            // Add your block functionality here
         });
     }
 

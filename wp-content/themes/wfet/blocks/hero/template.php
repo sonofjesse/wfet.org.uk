@@ -67,37 +67,45 @@ $margin_bottom = get_field('margin_bottom') ?: 'mb-0';
     </div>
 
     <?php if ($image) :
-        $hero_image_id  = is_array($image) && !empty($image['ID']) ? (int) $image['ID'] : 0;
-        $hero_image_alt = is_array($image) && !empty($image['alt']) ? (string) $image['alt'] : '';
+        $hero_image_id = is_array($image) && !empty($image['ID']) ? (int) $image['ID'] : 0;
 
-        if ($hero_image_id > 0 && $hero_image_alt === '') {
-            $hero_image_alt = get_post_meta($hero_image_id, '_wp_attachment_image_alt', true) ?: '';
+        if ($hero_image_id > 0 && empty($is_preview)) {
+            $preload_url = wp_get_attachment_image_url($hero_image_id, 'full');
+
+            if ($preload_url) {
+                add_action(
+                    'wp_head',
+                    static function () use ($preload_url) {
+                        printf(
+                            '<link rel="preload" as="image" href="%s" fetchpriority="high" />',
+                            esc_url($preload_url)
+                        );
+                    },
+                    5
+                );
+            }
         }
-
-        $hero_image_markup = $hero_image_id > 0
-            ? soj_picture(
-                $hero_image_id,
-                [
-                    1200 => [1300, 1300, true],
-                    768  => [800, 800, true],
-                    0    => [480, 480, true],
-                ],
-                [
-                    'img_class'             => 'hero__image-img',
-                    'alt'                   => $hero_image_alt,
-                    'use_width_descriptors' => true,
-                    'sizes'                 => '(min-width: 1460px) 1300px, (min-width: 1200px) 65vw, 95vw',
-                    'loading'               => 'eager',
-                    'decoding'              => 'async',
-                    'fetchpriority'         => !empty($is_preview) ? '' : 'high',
-                    'preload'               => empty($is_preview),
-                ]
-            )
-            : '';
         ?>
-        <?php if ($hero_image_markup !== '') : ?>
+        <?php if ($hero_image_id > 0) : ?>
             <div class="hero__image">
-                <?php echo $hero_image_markup; ?>
+                <?php
+                $hero_image_attrs = [
+                    'class'    => 'hero__image-img',
+                    'loading'  => 'eager',
+                    'decoding' => 'async',
+                ];
+
+                if (empty($is_preview)) {
+                    $hero_image_attrs['fetchpriority'] = 'high';
+                }
+
+                echo wp_get_attachment_image(
+                    $hero_image_id,
+                    'full',
+                    false,
+                    $hero_image_attrs
+                );
+                ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>

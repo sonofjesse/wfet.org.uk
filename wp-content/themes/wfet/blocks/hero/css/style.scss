@@ -134,15 +134,8 @@ $hero-image-rotate-duration: 90s;
             width: clamp(700px, 80svw, 1300px);
         }
 
-        picture {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
         img,
-        .hero__image-img,
-        picture img {
+        .hero__image-img {
             display: block;
             width: 100%;
             height: 100%;
@@ -156,7 +149,6 @@ $hero-image-rotate-duration: 90s;
 
     @media (prefers-reduced-motion: reduce) {
         &__image img,
-        &__image picture img,
         &__image .hero__image-img {
             animation: none;
             will-change: auto;
