@@ -25,6 +25,8 @@ function soj_disable_block_editor_styles()
     wp_dequeue_style('wp-block-library');
     wp_dequeue_style('wp-block-library-theme');
     wp_dequeue_style('wp-format-library');
+    // Per-block image styles force table-caption layout and override theme overlays.
+    wp_dequeue_style('wp-block-image');
 }
 add_action('wp_enqueue_scripts', 'soj_disable_block_editor_styles', 100);
 
@@ -41,6 +43,69 @@ function soj_enqueue_block_layout_styles()
     wp_enqueue_global_styles();
 }
 add_action('wp_enqueue_scripts', 'soj_enqueue_block_layout_styles', 9);
+
+/**
+ * Output a caption on core/image blocks when markup has none.
+ *
+ * Gutenberg stores captions on the block itself; media-library captions on the
+ * attachment are not synced automatically. WordPress 6.9 also strips empty
+ * figcaption elements on render, so a block with no block caption outputs no
+ * figcaption at all. This falls back to the attachment caption (post_excerpt).
+ *
+ * @param string   $block_content Rendered block HTML.
+ * @param array    $block         Parsed block data.
+ * @param WP_Block $instance      Block instance.
+ * @return string
+ */
+function soj_render_core_image_attachment_caption($block_content, $block, $instance)
+{
+    if (is_admin() || $block_content === '' || stripos($block_content, '<img') === false) {
+        return $block_content;
+    }
+
+    if (preg_match('/<figcaption\b[^>]*>[\s\S]*?\S[\s\S]*?<\/figcaption>/i', $block_content)) {
+        return $block_content;
+    }
+
+    $caption_html = '';
+    if (!empty($block['attrs']['caption']) && is_string($block['attrs']['caption'])) {
+        if (trim(wp_strip_all_tags($block['attrs']['caption'])) !== '') {
+            $caption_html = $block['attrs']['caption'];
+        }
+    }
+
+    if ($caption_html === '') {
+        $attachment_id = 0;
+        if (!empty($block['attrs']['id'])) {
+            $attachment_id = (int) $block['attrs']['id'];
+        } elseif (preg_match('/\bwp-image-(\d+)\b/', $block_content, $matches)) {
+            $attachment_id = (int) $matches[1];
+        }
+
+        if ($attachment_id <= 0) {
+            return $block_content;
+        }
+
+        $attachment_caption = get_post_field('post_excerpt', $attachment_id);
+        if (!is_string($attachment_caption) || trim(wp_strip_all_tags($attachment_caption)) === '') {
+            return $block_content;
+        }
+
+        $caption_html = $attachment_caption;
+    }
+
+    $figcaption = sprintf(
+        '<figcaption class="wp-element-caption">%s</figcaption>',
+        wp_kses_post($caption_html)
+    );
+
+    if (preg_match('/<\/figure>\s*$/i', $block_content)) {
+        return preg_replace('/<\/figure>\s*$/i', $figcaption . '</figure>', $block_content, 1);
+    }
+
+    return $block_content . $figcaption;
+}
+add_filter('render_block_core/image', 'soj_render_core_image_attachment_caption', 20, 3);
 
 /**
  * Disable WordPress style inlining for block styles.
