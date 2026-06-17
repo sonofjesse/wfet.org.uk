@@ -178,13 +178,16 @@ $standard-content-body-max-width: 87.68%;
     }
 
     &__image {
-        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: block;
 
         picture,
         img {
             display: block;
-            width: 100%;
+            max-width: 100%;
             height: auto;
+            margin: 0 auto;
         }
     }
 
