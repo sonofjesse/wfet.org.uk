@@ -114,15 +114,19 @@ if ($image_id) {
         }
     } else {
         $image_markup = soj_picture($image_id, [
-            0 => [693, 693, false],
+            0 => [720, 720, true],
         ], [
             'img_class'             => 'text-and-image__image-img',
             'alt'                   => $image_alt,
             'use_width_descriptors' => true,
-            'sizes'                 => '(min-width: 992px) 693px, (min-width: 768px) 50vw, 100vw',
+            'sizes'                 => '693px',
             'loading'               => 'lazy',
             'decoding'              => 'async',
             'fetchpriority'         => 'low',
+            'img_attributes'        => [
+                'width'  => '693',
+                'height' => '693',
+            ],
         ]);
     }
 }
