@@ -189,8 +189,12 @@ $modal_id = $id . '-modal';
                 $member_image    = $member['image'] ?? null;
                 $member_name     = $member['name'] ?? '';
                 $member_position = $member['position'] ?? '';
+                $member_area     = $member['area'] ?? '';
                 $member_content  = $member['content'] ?? '';
                 $member_linkedin = $member['linkedin'] ?? '';
+                $member_area_label = $member_area && function_exists('soj_get_area_label')
+                    ? soj_get_area_label($member_area)
+                    : '';
 
                 if (
                     !$member_name
@@ -230,8 +234,34 @@ $modal_id = $id . '-modal';
                         <?php endif; ?>
                     <?php endif; ?>
 
-                    <?php if ($member_name || $member_position || $member_linkedin) : ?>
+                    <?php if ($member_area_label || $member_name || $member_position || $member_linkedin) : ?>
                         <div class="team__details">
+                            <?php if ($member_area_label) :
+                                $member_area_colour = function_exists('soj_get_area_colour')
+                                    ? soj_get_area_colour($member_area)
+                                    : 'moss-dark';
+                                $member_area_class  = 'news-card__category news-card__category--' . sanitize_html_class($member_area_colour);
+                                $member_area_term   = get_category_by_slug((string) $member_area);
+                                $member_area_link   = ($member_area_term instanceof WP_Term)
+                                    ? get_term_link($member_area_term, 'category')
+                                    : '';
+                                ?>
+                                <div class="news-card__categories team__area">
+                                    <?php if (!$is_block_preview && $member_area_link && !is_wp_error($member_area_link)) : ?>
+                                        <a
+                                            class="<?php echo esc_attr($member_area_class); ?>"
+                                            href="<?php echo esc_url($member_area_link); ?>"
+                                        >
+                                            <?php echo esc_html($member_area_label); ?>
+                                        </a>
+                                    <?php else : ?>
+                                        <span class="<?php echo esc_attr($member_area_class); ?>">
+                                            <?php echo esc_html($member_area_label); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+
                             <?php if ($member_name || $member_linkedin) : ?>
                                 <div class="team__name-row">
                                     <?php if ($member_name) : ?>

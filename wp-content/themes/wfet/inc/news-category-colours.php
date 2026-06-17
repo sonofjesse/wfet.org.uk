@@ -54,6 +54,83 @@ function soj_get_news_category_colour($category)
 }
 
 /**
+ * Area slug to badge colour map (matches news category slugs).
+ *
+ * @return array<string, string>
+ */
+function soj_get_area_colour_map(): array
+{
+    return [
+        'homes'                         => 'rose-dark',
+        'nature-based-neighbourhoods'   => 'moss-dark',
+        'inclusive-education'           => 'sky-dark',
+    ];
+}
+
+/**
+ * Area slug to display label map (fallback when the category term is missing).
+ *
+ * @return array<string, string>
+ */
+function soj_get_area_label_map(): array
+{
+    return [
+        'homes'                         => 'Homes',
+        'nature-based-neighbourhoods'   => 'Nature-based Neighbourhoods',
+        'inclusive-education'           => 'Inclusive Education',
+    ];
+}
+
+/**
+ * Map an area slug to its badge colour slug.
+ *
+ * @param string $area_slug Area slug from ACF select.
+ * @return string One of: rose-dark, moss-dark, sky-dark.
+ */
+function soj_get_area_colour($area_slug)
+{
+    $allowed_colours = ['rose-dark', 'moss-dark', 'sky-dark'];
+    $area_slug       = sanitize_title((string) $area_slug);
+
+    if ($area_slug === '') {
+        return 'moss-dark';
+    }
+
+    $category = get_category_by_slug($area_slug);
+
+    if ($category instanceof WP_Term) {
+        return soj_get_news_category_colour($category);
+    }
+
+    $colour = soj_get_area_colour_map()[$area_slug] ?? 'moss-dark';
+
+    return in_array($colour, $allowed_colours, true) ? $colour : 'moss-dark';
+}
+
+/**
+ * Get the display label for an area slug.
+ *
+ * @param string $area_slug Area slug from ACF select.
+ * @return string
+ */
+function soj_get_area_label($area_slug)
+{
+    $area_slug = sanitize_title((string) $area_slug);
+
+    if ($area_slug === '') {
+        return '';
+    }
+
+    $category = get_category_by_slug($area_slug);
+
+    if ($category instanceof WP_Term) {
+        return $category->name;
+    }
+
+    return soj_get_area_label_map()[$area_slug] ?? '';
+}
+
+/**
  * Category slugs shown in the All News filter bar (display order).
  *
  * @return string[]
