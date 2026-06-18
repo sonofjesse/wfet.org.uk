@@ -113,8 +113,24 @@ if ($image_id) {
             );
         }
     } else {
+        $img_attributes = [];
+        $metadata       = wp_get_attachment_metadata($image_id);
+        $orig_width     = (int) ($metadata['width'] ?? 0);
+        $orig_height    = (int) ($metadata['height'] ?? 0);
+        $max_display_w  = 693;
+
+        if ($orig_width > 0 && $orig_height > 0) {
+            if ($orig_width > $max_display_w) {
+                $img_attributes['width']  = $max_display_w;
+                $img_attributes['height'] = (int) round($orig_height * ($max_display_w / $orig_width));
+            } else {
+                $img_attributes['width']  = $orig_width;
+                $img_attributes['height'] = $orig_height;
+            }
+        }
+
         $image_markup = soj_picture($image_id, [
-            0 => [720, 720, true],
+            0 => [693, 0, false],
         ], [
             'img_class'             => 'text-and-image__image-img',
             'alt'                   => $image_alt,
@@ -123,10 +139,7 @@ if ($image_id) {
             'loading'               => 'lazy',
             'decoding'              => 'async',
             'fetchpriority'         => 'low',
-            'img_attributes'        => [
-                'width'  => '693',
-                'height' => '693',
-            ],
+            'img_attributes'        => $img_attributes,
         ]);
     }
 }

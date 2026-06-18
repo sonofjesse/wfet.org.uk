@@ -478,7 +478,7 @@ $render_column = static function ($column, $modifier, $is_preview) use ($column_
                         class="content-columns__resource-item"
                         role="listitem"
                         href="<?php echo esc_url($resource['url']); ?>"
-                        download
+                        target="_blank"
                     >
                         <span class="content-columns__resource-icon" aria-hidden="true">
                             <img

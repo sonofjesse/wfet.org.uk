@@ -149,38 +149,27 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
     }
 
     &__media {
-        position: relative;
         flex: 0 0 auto;
-        width: $text-and-image-media-width;
-        max-width: 100%;
-        aspect-ratio: 1 / 1;
+        width: 100%;
+        max-width: $text-and-image-media-width;
         overflow: hidden;
         border-radius: 10px;
 
         @include respond-to(lg) {
             flex: 0 0 $text-and-image-media-width;
-            min-width: $text-and-image-media-width;
+            width: $text-and-image-media-width;
         }
 
         picture {
-            position: absolute;
-            inset: 0;
             display: block;
             width: 100%;
-            height: 100%;
-            margin: 0;
         }
 
+        picture,
         img {
-            position: absolute;
-            inset: 0;
             display: block;
-            width: 100% !important;
-            height: 100% !important;
-            max-width: none !important;
-            margin: 0;
-            object-fit: cover;
-            object-position: center;
+            width: 100%;
+            height: auto;
         }
     }
 
