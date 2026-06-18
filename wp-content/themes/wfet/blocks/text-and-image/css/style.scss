@@ -152,7 +152,6 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
         flex: 0 0 auto;
         width: 100%;
         max-width: $text-and-image-media-width;
-        overflow: hidden;
         border-radius: 10px;
 
         @include respond-to(lg) {
@@ -170,6 +169,7 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
             display: block;
             width: 100%;
             height: auto;
+            border-radius: 10px;
         }
     }
 
