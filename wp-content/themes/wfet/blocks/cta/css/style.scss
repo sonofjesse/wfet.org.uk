@@ -56,6 +56,43 @@ $cta-body-max-width: 87.68%;
     }
 
     background-color: var(--cta-bg);
+    --cta-accent: #{$rose-dark};
+
+    &--service-rose-dark {
+        --cta-accent: #{$rose-dark};
+    }
+
+    &--service-moss-dark {
+        --cta-accent: #{$moss-dark};
+    }
+
+    &--service-sky-dark {
+        --cta-accent: #{$sky-dark};
+    }
+
+    &--bg-glass,
+    &--bg-midnight {
+        .label {
+            color: $glass;
+        }
+    }
+
+    &--bg-sand,
+    &--bg-rose-dark,
+    &--bg-moss-dark,
+    &--bg-sky-dark {
+        .label {
+            color: $midnight;
+        }
+    }
+
+    &--service-rose-dark,
+    &--service-moss-dark,
+    &--service-sky-dark {
+        .label {
+            color: var(--cta-accent);
+        }
+    }
 
     &__media {
         position: absolute;

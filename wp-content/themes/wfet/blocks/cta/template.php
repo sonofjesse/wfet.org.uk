@@ -42,6 +42,17 @@ if (!empty($is_preview) && isset($block['data']['preview_image_help'])) {
     return;
 }
 
+$allowed_service_colours = ['rose-dark', 'moss-dark', 'sky-dark'];
+$context_post_id         = !empty($post_id) ? (int) $post_id : (int) get_the_ID();
+if (get_post_type($context_post_id) === 'service') {
+    $service_colour = get_field('service_colour', $context_post_id);
+    if (!in_array($service_colour, $allowed_service_colours, true)) {
+        $service_colour = 'rose-dark';
+    }
+    $className .= ' cta--service-' . sanitize_html_class($service_colour);
+}
+
+$label             = get_field('label');
 $content           = get_field('content');
 $buttons           = get_field('buttons');
 $background_colour = get_field('background_colour') ?: 'glass';
@@ -70,7 +81,7 @@ if (!empty($buttons) && is_array($buttons)) {
     }
 }
 
-if (!$content && !$has_buttons) {
+if (!$label && !$content && !$has_buttons) {
     if (!empty($is_preview)) {
         echo '<div class="' . esc_attr(trim($className)) . '"><p>' . esc_html__('Add content and buttons to preview this block.', 'soj-core') . '</p></div>';
     }
@@ -97,6 +108,10 @@ $is_light_bg = in_array($background_colour, ['sand', 'rose-dark', 'moss-dark', '
     <?php endif; ?>
 
     <div class="cta__inner" data-gsap-animate="stagger">
+        <?php if ($label) : ?>
+            <p class="label"><?php echo esc_html($label); ?></p>
+        <?php endif; ?>
+
         <?php if ($content) : ?>
             <div class="cta__copy">
                 <?php echo wp_kses_post($content); ?>
