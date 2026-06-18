@@ -56,19 +56,6 @@ $cta-body-max-width: 87.68%;
     }
 
     background-color: var(--cta-bg);
-    --cta-accent: #{$rose-dark};
-
-    &--service-rose-dark {
-        --cta-accent: #{$rose-dark};
-    }
-
-    &--service-moss-dark {
-        --cta-accent: #{$moss-dark};
-    }
-
-    &--service-sky-dark {
-        --cta-accent: #{$sky-dark};
-    }
 
     &--bg-glass,
     &--bg-midnight {
@@ -86,11 +73,19 @@ $cta-body-max-width: 87.68%;
         }
     }
 
-    &--service-rose-dark,
-    &--service-moss-dark,
-    &--service-sky-dark {
-        .label {
-            color: var(--cta-accent);
+    &--bg-glass,
+    &--bg-midnight,
+    &--bg-sand {
+        &.cta--service-rose-dark .label {
+            color: $rose-dark;
+        }
+
+        &.cta--service-moss-dark .label {
+            color: $moss-dark;
+        }
+
+        &.cta--service-sky-dark .label {
+            color: $sky-dark;
         }
     }
 

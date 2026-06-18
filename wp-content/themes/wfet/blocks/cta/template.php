@@ -42,16 +42,6 @@ if (!empty($is_preview) && isset($block['data']['preview_image_help'])) {
     return;
 }
 
-$allowed_service_colours = ['rose-dark', 'moss-dark', 'sky-dark'];
-$context_post_id         = !empty($post_id) ? (int) $post_id : (int) get_the_ID();
-if (get_post_type($context_post_id) === 'service') {
-    $service_colour = get_field('service_colour', $context_post_id);
-    if (!in_array($service_colour, $allowed_service_colours, true)) {
-        $service_colour = 'rose-dark';
-    }
-    $className .= ' cta--service-' . sanitize_html_class($service_colour);
-}
-
 $label             = get_field('label');
 $content           = get_field('content');
 $buttons           = get_field('buttons');
@@ -64,6 +54,18 @@ if (!in_array($background_colour, $allowed_colours, true)) {
 }
 
 $className .= ' cta--bg-' . sanitize_html_class($background_colour);
+
+$allowed_service_colours = ['rose-dark', 'moss-dark', 'sky-dark'];
+$label_accent_bgs        = ['glass', 'midnight', 'sand'];
+$context_post_id         = !empty($post_id) ? (int) $post_id : (int) get_the_ID();
+
+if (get_post_type($context_post_id) === 'service' && in_array($background_colour, $label_accent_bgs, true)) {
+    $service_colour = get_field('service_colour', $context_post_id);
+    if (!in_array($service_colour, $allowed_service_colours, true)) {
+        $service_colour = 'rose-dark';
+    }
+    $className .= ' cta--service-' . sanitize_html_class($service_colour);
+}
 
 $has_bg_image = is_array($background_image) && !empty($background_image['url']);
 if ($has_bg_image) {
