@@ -5,7 +5,7 @@ $text-and-image-gutter: clamp(24px, 4.6vw, 80px);
 $text-and-image-column-gap: clamp(40px, 7.6vw, 110px);
 $text-and-image-body-max-width: 700px;
 $text-and-image-content-max-width: 601px;
-$text-and-image-media-min-width: 678px;
+$text-and-image-media-min-width: 693px;
 $text-and-image-media-width: 693px;
 $text-and-image-header-offset: clamp(80px, 7vw, 110px);
 $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
@@ -153,12 +153,13 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
         flex: 0 0 auto;
         width: 100%;
         max-width: $text-and-image-media-width;
-        border-radius: 10px;
 
         @include respond-to(lg) {
             flex: 0 0 $text-and-image-media-width;
+            flex-shrink: 0;
             width: $text-and-image-media-width;
             min-width: $text-and-image-media-min-width;
+            max-width: $text-and-image-media-width;
         }
 
         picture {
@@ -167,9 +168,11 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
         }
 
         picture,
-        img {
+        img,
+        .text-and-image__image-img {
             display: block;
             width: 100%;
+            min-width: 100%;
             height: auto;
             border-radius: 10px;
         }
@@ -186,6 +189,8 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
 
         @include respond-to(lg) {
             flex: 0 1 $text-and-image-body-max-width;
+            width: auto;
+            max-width: $text-and-image-body-max-width;
             justify-content: space-between;
         }
     }
