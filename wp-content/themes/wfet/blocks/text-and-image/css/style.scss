@@ -161,6 +161,14 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
             min-width: $text-and-image-media-min-width;
             max-width: $text-and-image-media-width;
         }
+    }
+
+    &__figure {
+        position: relative;
+        display: block;
+        margin: 0;
+        border-radius: 10px;
+        overflow: hidden;
 
         picture {
             display: block;
@@ -174,7 +182,6 @@ $text-and-image-hero-padding-y: clamp(60px, 8vw, 120px);
             width: 100%;
             min-width: 100%;
             height: auto;
-            border-radius: 10px;
         }
     }
 

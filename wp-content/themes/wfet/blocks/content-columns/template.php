@@ -380,13 +380,18 @@ $render_column = static function ($column, $modifier, $is_preview) use ($column_
             <h3 class="content-columns__title"><?php echo esc_html($title); ?></h3>
         <?php endif; ?>
 
-        <?php if ($image_markup) : ?>
+        <?php if ($image_markup) :
+            $image_caption_markup = soj_render_attachment_figcaption($column['image'] ?? null);
+            ?>
             <div class="content-columns__media"<?php
             if ($image_display_width > 0) {
                 echo ' style="width:' . (int) $image_display_width . 'px;max-width:100%;"';
             }
             ?>>
-                <?php echo $image_markup; ?>
+                <figure class="content-columns__figure">
+                    <?php echo $image_markup; ?>
+                    <?php echo $image_caption_markup; ?>
+                </figure>
             </div>
         <?php endif; ?>
 

@@ -148,9 +148,14 @@ if ($image_id) {
 <section id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr(trim($className)); ?>">
 
     <div class="text-and-image__inner" data-gsap-animate="stagger">
-        <?php if ($image_markup) : ?>
+        <?php if ($image_markup) :
+            $image_caption_markup = soj_render_attachment_figcaption($image);
+            ?>
             <div class="text-and-image__media">
-                <?php echo $image_markup; ?>
+                <figure class="text-and-image__figure">
+                    <?php echo $image_markup; ?>
+                    <?php echo $image_caption_markup; ?>
+                </figure>
             </div>
         <?php endif; ?>
 

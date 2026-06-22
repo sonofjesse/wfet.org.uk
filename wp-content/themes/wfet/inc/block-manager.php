@@ -45,6 +45,64 @@ function soj_enqueue_block_layout_styles()
 add_action('wp_enqueue_scripts', 'soj_enqueue_block_layout_styles', 9);
 
 /**
+ * Resolve attachment caption HTML from an ACF image field or attachment ID.
+ *
+ * @param array|int|null $image ACF image array or attachment ID.
+ * @return string Sanitised caption HTML, or empty string when none.
+ */
+function soj_get_attachment_caption_html($image)
+{
+    $image_id     = 0;
+    $caption_html = '';
+
+    if (is_array($image)) {
+        if (!empty($image['ID'])) {
+            $image_id = (int) $image['ID'];
+        }
+
+        if (!empty($image['caption']) && is_string($image['caption'])) {
+            if (trim(wp_strip_all_tags($image['caption'])) !== '') {
+                $caption_html = $image['caption'];
+            }
+        }
+    } elseif (is_numeric($image)) {
+        $image_id = (int) $image;
+    }
+
+    if ($caption_html === '' && $image_id > 0) {
+        $attachment_caption = get_post_field('post_excerpt', $image_id);
+        if (is_string($attachment_caption) && trim(wp_strip_all_tags($attachment_caption)) !== '') {
+            $caption_html = $attachment_caption;
+        }
+    }
+
+    if ($caption_html === '') {
+        return '';
+    }
+
+    return wp_kses_post($caption_html);
+}
+
+/**
+ * Render a native-style figcaption for an attachment caption.
+ *
+ * @param array|int|null $image ACF image array or attachment ID.
+ * @return string
+ */
+function soj_render_attachment_figcaption($image)
+{
+    $caption_html = soj_get_attachment_caption_html($image);
+    if ($caption_html === '') {
+        return '';
+    }
+
+    return sprintf(
+        '<figcaption class="wp-element-caption">%s</figcaption>',
+        $caption_html
+    );
+}
+
+/**
  * Output a caption on core/image blocks when markup has none.
  *
  * Gutenberg stores captions on the block itself; media-library captions on the
@@ -86,12 +144,10 @@ function soj_render_core_image_attachment_caption($block_content, $block, $insta
             return $block_content;
         }
 
-        $attachment_caption = get_post_field('post_excerpt', $attachment_id);
-        if (!is_string($attachment_caption) || trim(wp_strip_all_tags($attachment_caption)) === '') {
+        $caption_html = soj_get_attachment_caption_html($attachment_id);
+        if ($caption_html === '') {
             return $block_content;
         }
-
-        $caption_html = $attachment_caption;
     }
 
     $figcaption = sprintf(
