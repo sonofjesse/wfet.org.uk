@@ -5,14 +5,12 @@ $quote-indent: 44px;
 $quote-bar-width: 3px;
 $quote-accent: $rose-dark;
 $quote-gutter: clamp(24px, 4.6vw, 80px);
+$quote-container-max: 0.7 * $container-width;
 
 // Match standard-content--width-70: 70% of the centred content container.
 @mixin soj-quote-container {
   width: 100%;
-  max-width: min(
-    calc(0.7 * var(--wp--style--global--content-size, #{$container-width})),
-    calc(0.7 * (100% - (2 * #{$quote-gutter})))
-  );
+  max-width: min(#{$quote-container-max}, calc(0.7 * (100% - (2 * #{$quote-gutter}))));
   margin-left: auto;
   margin-right: auto;
 
