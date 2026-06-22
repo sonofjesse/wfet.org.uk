@@ -135,7 +135,7 @@ if ($image_id) {
             'img_class'             => 'text-and-image__image-img',
             'alt'                   => $image_alt,
             'use_width_descriptors' => true,
-            'sizes'                 => '693px',
+            'sizes'                 => '(min-width: 992px) 693px, 100vw',
             'loading'               => 'lazy',
             'decoding'              => 'async',
             'fetchpriority'         => 'low',
