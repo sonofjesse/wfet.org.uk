@@ -33,13 +33,13 @@ $image_markup = $thumbnail_id
     ? soj_picture(
         $thumbnail_id,
         [
-            0 => [457, 345, true],
+            0 => [480, 363, true],
         ],
         [
             'img_class'             => 'news-card__image-img',
             'alt'                   => $image_alt,
             'use_width_descriptors' => true,
-            'sizes'                 => '(min-width: 1280px) 457px, (min-width: 768px) 33vw, 100vw',
+            'sizes'                 => '(min-width: 1280px) 480px, (min-width: 768px) 33vw, 100vw',
             'loading'               => $is_preview ? 'eager' : 'lazy',
             'decoding'              => 'async',
             'fetchpriority'         => $is_preview ? '' : 'low',

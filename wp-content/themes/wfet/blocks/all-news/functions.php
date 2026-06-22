@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-add_image_size('news-card', 457, 345, true);
+add_image_size('news-card', 480, 363, true);
 
 /**
  * Posts per page for the All News listing (Settings → Reading → “Blog pages show at most”).
