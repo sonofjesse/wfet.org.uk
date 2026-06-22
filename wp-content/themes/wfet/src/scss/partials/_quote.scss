@@ -1,0 +1,97 @@
+// Core Quote / Pullquote blocks — matches content-columns quote styling.
+// wp-block-library and per-block core styles are dequeued on the frontend.
+
+$quote-indent: 44px;
+$quote-bar-width: 3px;
+$quote-accent: $rose-dark;
+$quote-gutter: clamp(24px, 4.6vw, 80px);
+
+// Match standard-content--width-70: 70% of the centred content container.
+@mixin soj-quote-container {
+  width: 100%;
+  max-width: min(
+    calc(0.7 * var(--wp--style--global--content-size, #{$container-width})),
+    calc(0.7 * (100% - (2 * #{$quote-gutter})))
+  );
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    max-width: min(
+      var(--wp--style--global--content-size, #{$container-width}),
+      calc(100% - (2 * #{$quote-gutter}))
+    );
+  }
+}
+
+@mixin soj-quote-content {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 $quote-indent;
+  border: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $quote-bar-width;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  > p {
+    margin: 0;
+    color: $quote-accent;
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 400;
+    line-height: 1.1;
+
+    + p {
+      margin-top: 1em;
+    }
+  }
+
+  > cite {
+    display: block;
+    margin: clamp(20px, 4vw, 30px) 0 0;
+    padding: 0;
+    font-weight: 600;
+    font-style: normal;
+    color: inherit;
+  }
+
+  .has-sand-background-color &,
+  .has-white-background-color & {
+    &::before {
+      background-color: color-mix(in srgb, #{$midnight}, transparent 90%);
+    }
+  }
+}
+
+.wp-block-quote {
+  @include soj-quote-content;
+}
+
+.wp-block-pullquote {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-align: left;
+  font-size: clamp(16px, 4.5vw, 18px);
+  line-height: 1.3;
+
+  blockquote {
+    @include soj-quote-content;
+  }
+}
+
+.site-main > .wp-block-quote:not(.alignwide):not(.alignfull),
+.site-main > .wp-block-pullquote:not(.alignwide):not(.alignfull),
+.is-layout-constrained > .wp-block-quote:not(.alignwide):not(.alignfull),
+.is-layout-constrained > .wp-block-pullquote:not(.alignwide):not(.alignfull) {
+  @include soj-quote-container;
+}

@@ -27,8 +27,52 @@ function soj_disable_block_editor_styles()
     wp_dequeue_style('wp-format-library');
     // Per-block image styles force table-caption layout and override theme overlays.
     wp_dequeue_style('wp-block-image');
+    wp_dequeue_style('wp-block-pullquote');
+    wp_dequeue_style('wp-block-pullquote-theme');
+    wp_dequeue_style('wp-block-quote');
 }
 add_action('wp_enqueue_scripts', 'soj_disable_block_editor_styles', 100);
+
+/**
+ * Prevent core Quote / Pullquote CSS when those blocks render.
+ *
+ * WP 7 loads per-block styles on demand during render_block (after wp_enqueue_scripts),
+ * so the dequeue above does not catch them. Theme styles live in _quote.scss.
+ *
+ * @param string   $content Rendered block HTML.
+ * @param array    $block   Block data.
+ * @return string Unchanged block HTML.
+ */
+function soj_disable_core_quote_block_styles($content, $block)
+{
+    if (!in_array($block['blockName'] ?? '', ['core/quote', 'core/pullquote'], true)) {
+        return $content;
+    }
+
+    wp_dequeue_style('wp-block-quote');
+    wp_dequeue_style('wp-block-pullquote');
+    wp_dequeue_style('wp-block-pullquote-theme');
+
+    return $content;
+}
+add_filter('render_block', 'soj_disable_core_quote_block_styles', 11, 2);
+
+/**
+ * Strip core Quote / Pullquote stylesheets if they still load (WP 7 on-demand assets).
+ *
+ * @param string $html   Link tag HTML.
+ * @param string $handle Style handle.
+ * @return string Empty string to drop the tag, or original HTML.
+ */
+function soj_strip_core_quote_block_styles($html, $handle)
+{
+    if (in_array($handle, ['wp-block-quote', 'wp-block-pullquote', 'wp-block-pullquote-theme'], true)) {
+        return '';
+    }
+
+    return $html;
+}
+add_filter('style_loader_tag', 'soj_strip_core_quote_block_styles', 10, 2);
 
 /**
  * Ensure theme.json global styles are queued (presets, group defaults).

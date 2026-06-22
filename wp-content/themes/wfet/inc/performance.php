@@ -83,6 +83,9 @@ add_action('wp_enqueue_scripts', function () {
     wp_dequeue_style('wp-block-library-theme'); // classic theme styles alias
     wp_dequeue_style('classic-theme-styles');   // since WP 6.x
     wp_dequeue_style('wp-block-image');         // caption overlay handled in theme SCSS
+    wp_dequeue_style('wp-block-pullquote');     // quote styling handled in theme SCSS
+    wp_dequeue_style('wp-block-pullquote-theme');
+    wp_dequeue_style('wp-block-quote');
 
     // WooCommerce blocks CSS (if you fully style yourself)
     wp_dequeue_style('wc-blocks-style');
