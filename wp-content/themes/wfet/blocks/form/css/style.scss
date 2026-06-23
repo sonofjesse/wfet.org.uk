@@ -23,11 +23,11 @@ $form-arrow-breakpoint: 1500px;
 
 .form {
     position: absolute;
-    top: calc(-1 * #{$form-header-offset});
+    top: -110px;
     left: 0;
     right: 0;
     width: 100%;
-    min-height: calc(#{$form-min-height} + #{$form-header-offset});
+    //min-height: calc(#{$form-min-height} + #{$form-header-offset});
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     color: $sand;
@@ -75,7 +75,7 @@ $form-arrow-breakpoint: 1500px;
         max-width: $container-width;
         margin-inline: auto;
         padding: calc(#{$form-padding-y} + #{$form-header-offset}) $form-gutter $form-padding-y;
-
+        padding-bottom: 0;
         @include respond-to(lg) {
             flex-direction: row;
             align-items: flex-start;
