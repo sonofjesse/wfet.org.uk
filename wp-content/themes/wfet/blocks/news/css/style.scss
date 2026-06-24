@@ -197,6 +197,31 @@ $news-content-max-width: 640px;
         @include respond-to(lg) {
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
+
+        &--count-1 {
+            @include respond-to(md) {
+                .news-card:first-child {
+                    grid-column: 1 / -1;
+                    width: calc((100% - 40px) / 2);
+                    max-width: calc((100% - 40px) / 2);
+                    justify-self: center;
+                }
+            }
+
+            @include respond-to(lg) {
+                .news-card:first-child {
+                    width: calc((100% - 80px) / 3);
+                    max-width: calc((100% - 80px) / 3);
+                }
+            }
+        }
+
+        &--count-2 {
+            @include respond-to(lg) {
+                justify-content: center;
+                grid-template-columns: repeat(2, calc((100% - 80px) / 3));
+            }
+        }
     }
 
     &__empty {

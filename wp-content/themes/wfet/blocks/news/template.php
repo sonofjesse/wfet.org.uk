@@ -100,7 +100,7 @@ if ($is_block_preview) {
 }
 
 $context_post_id = !empty($post_id) ? (int) $post_id : (int) get_the_ID();
-$show_category   = get_post_type($context_post_id) !== 'service';
+$show_category   = get_post_type($context_post_id) !== 'service' && $type !== 'category';
 
 if ($type === 'category') {
     $category_term = null;
@@ -157,7 +157,15 @@ if ($type === 'category') {
         <?php endif; ?>
 
         <?php if ($news_query->have_posts()) : ?>
-            <div class="news__grid" data-gsap-animate="stagger">
+            <?php
+            $post_count = (int) $news_query->post_count;
+            $grid_class = 'news__grid';
+
+            if ($post_count <= 2) {
+                $grid_class .= ' news__grid--count-' . $post_count;
+            }
+            ?>
+            <div class="<?php echo esc_attr($grid_class); ?>" data-gsap-animate="stagger">
                 <?php
                 while ($news_query->have_posts()) :
                     $news_query->the_post();
