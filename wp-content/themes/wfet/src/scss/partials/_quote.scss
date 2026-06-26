@@ -69,8 +69,58 @@ $quote-container-max: 0.7 * $container-width;
   }
 }
 
+// ACF WYSIWYG fields style `p` with equal specificity — keep quote typography inside blockquotes.
+@mixin soj-quote-wysiwyg-paragraphs {
+  > p,
+  > p:first-of-type {
+    margin: 0;
+    color: $quote-accent;
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 400;
+    line-height: 1.1;
+    max-width: none;
+  }
+
+  > p + p {
+    margin-top: 1em;
+  }
+}
+
+$soj-wysiwyg-content-areas: (
+  ".standard-content__content",
+  ".text-and-image__content",
+  ".content-columns__content",
+  ".cta-with-icon__content",
+  ".cta__copy",
+  ".form__content",
+  ".text-and-icons__item-content",
+  ".intro__text",
+  ".intro__sub-text",
+  ".hero__content",
+);
+
+blockquote,
 .wp-block-quote {
   @include soj-quote-content;
+}
+
+@each $area in $soj-wysiwyg-content-areas {
+  #{$area} blockquote {
+    @include soj-quote-wysiwyg-paragraphs;
+  }
+}
+
+// Light ACF block backgrounds — match quote bar to sand/white core Group blocks.
+.standard-content--bg-sand,
+.content-columns--bg-sand,
+.content-columns--bg-white {
+  blockquote,
+  .wp-block-quote {
+    &::before {
+      background-color: color-mix(in srgb, #{$midnight}, transparent 90%);
+    }
+  }
 }
 
 .wp-block-pullquote {
