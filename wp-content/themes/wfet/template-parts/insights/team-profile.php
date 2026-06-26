@@ -117,7 +117,7 @@ if ($image_id > 0) {
                     soj_the_button(
                         [
                             'url'   => $insights_url,
-                            'title' => __('Back to Insights', 'soj-core'),
+                            'title' => __('Back to Deep Dive', 'soj-core'),
                         ],
                         [
                             'class' => 'insight-team-profile__button',
