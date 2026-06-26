@@ -341,8 +341,8 @@ $content-columns-resource-icon-height: 50px;
 
     &__quote-avatar {
         flex: 0 0 auto;
-        width: 57px;
-        height: 57px;
+        width: 110px;
+        height: 110px;
         border-radius: 50%;
         overflow: hidden;
 
@@ -373,6 +373,7 @@ $content-columns-resource-icon-height: 50px;
 
     &__quote-name {
         margin: 0;
+        font-size: clamp(18px, 1.67vw, 24px);
         font-weight: 600;
         color: inherit;
     }
