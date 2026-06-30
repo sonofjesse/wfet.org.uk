@@ -103,6 +103,8 @@ if ($member_count > 6) {
     $className .= ' team--cols-3';
 }
 
+$className .= ' team--members-' . (int) $member_count;
+
 $is_block_preview = !empty($is_preview);
 
 /**
