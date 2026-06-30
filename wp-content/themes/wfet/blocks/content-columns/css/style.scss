@@ -9,6 +9,7 @@ $content-columns-left-max-width: 550px;
 $content-columns-right-max-width: 632px;
 $content-columns-quote-indent: 44px;
 $content-columns-quote-bar-width: 3px;
+$content-columns-quote-avatar-size: 125px;
 $content-columns-image-rotate-duration: 90s;
 $content-columns-icons-list-gap: clamp(20px, 4.5vw, 30px);
 $content-columns-resources-list-gap: 30px;
@@ -341,8 +342,8 @@ $content-columns-resource-icon-height: 50px;
 
     &__quote-avatar {
         flex: 0 0 auto;
-        width: 110px;
-        height: 110px;
+        width: $content-columns-quote-avatar-size;
+        height: $content-columns-quote-avatar-size;
         border-radius: 50%;
         overflow: hidden;
 
