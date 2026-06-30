@@ -12,10 +12,30 @@
 	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/src/images/favicons/favicon.ico" />
 	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_template_directory_uri(); ?>/src/images/favicons/apple-touch-icon.png" />
 
+	<!-- Tag Manager -->
+	<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-5DDMFPJ2" id="google_gtagjs-js" async></script>
+	<script type="text/javascript" id="google_gtagjs-js-after">
+	/* <![CDATA[ */
+	window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+	gtag("set","linker",{"domains":["www.wfet.org.uk"]});
+	gtag("js", new Date());
+	gtag("set", "developer_id.dZTNiMT", true);
+	gtag("config", "GT-5DDMFPJ2");
+	window._googlesitekit = window._googlesitekit || {}; window._googlesitekit.throttledEvents = []; window._googlesitekit.gtagEvent = (name, data) => { var key = JSON.stringify( { name, data } ); if ( !! window._googlesitekit.throttledEvents[ key ] ) { return; } window._googlesitekit.throttledEvents[ key ] = true; setTimeout( () => { delete window._googlesitekit.throttledEvents[ key ]; }, 5 ); gtag( "event", name, { ...data, event_source: "site-kit" } ); }; 
+	//# sourceURL=google_gtagjs-js-after
+	/* ]]> */
+	</script>
+
 	<?php wp_head(); ?>
 </head>
 
 <body class="soj-frontend">
+
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNJTL8Z"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	 
 	<header id="masthead">
 		<div class="container">
 			<div class="desktop-nav ">
