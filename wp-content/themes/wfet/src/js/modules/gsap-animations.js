@@ -29,7 +29,7 @@ function isGsapScrollMotionViewport() {
 class GSAPAnimationSystem {
   constructor() {
     this.animations = new Map();
-    /** @type {SplitText[]} */
+    /** @type {{ split: SplitText, srOnly: HTMLElement, heading: HTMLElement }[]} */
     this.highlightSplits = [];
     /** False when viewport is below GSAP_SCROLL_MOTION_MIN_WIDTH — skip ScrollTrigger entrance animations. */
     this.scrollMotionEnabled = false;
@@ -410,6 +410,13 @@ class GSAPAnimationSystem {
 
     targets.forEach((heading) => {
       heading.setAttribute("data-highlight-initialized", "true");
+      heading.removeAttribute("aria-label");
+
+      const srOnly = document.createElement("span");
+      srOnly.className = "sr-only";
+      srOnly.innerHTML = heading.innerHTML;
+      heading.before(srOnly);
+      heading.setAttribute("aria-hidden", "true");
 
       const scrollStart =
         heading.getAttribute("data-highlight-scroll-start") || "top 90%";
@@ -425,6 +432,7 @@ class GSAPAnimationSystem {
       const split = new SplitText(heading, {
         type: "words,chars",
         autoSplit: true,
+        aria: "none",
         onSplit(self) {
           const ctx = gsap.context(() => {
             const tl = gsap.timeline({
@@ -447,15 +455,20 @@ class GSAPAnimationSystem {
         },
       });
 
-      this.highlightSplits.push(split);
+      this.highlightSplits.push({ split, srOnly, heading });
     });
   }
 
   killHighlightText() {
-    this.highlightSplits.forEach((split) => {
+    this.highlightSplits.forEach((entry) => {
+      const split = entry.split ?? entry;
+
       if (typeof split.revert === "function") {
         split.revert();
       }
+
+      entry.srOnly?.remove();
+      entry.heading?.removeAttribute("aria-hidden");
     });
     this.highlightSplits = [];
   }
