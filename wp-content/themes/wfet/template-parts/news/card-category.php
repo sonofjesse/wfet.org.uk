@@ -46,10 +46,17 @@ $is_preview = !empty($args['is_preview']);
         $category_class = 'news-card__category news-card__category--' . sanitize_html_class($colour);
 
         if (!$is_preview && $category_link && !is_wp_error($category_link)) :
+            $category_label = sprintf(
+                /* translators: %s: category name */
+                __('View all posts in %s', 'soj-core'),
+                $category->name
+            );
             ?>
             <a
                 class="<?php echo esc_attr($category_class); ?>"
                 href="<?php echo esc_url($category_link); ?>"
+                title="<?php echo esc_attr($category_label); ?>"
+                aria-label="<?php echo esc_attr($category_label); ?>"
             >
                 <?php echo esc_html($category->name); ?>
             </a>

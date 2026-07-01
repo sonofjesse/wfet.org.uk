@@ -104,6 +104,7 @@ if ($is_block_preview) {
                     <a
                         class="latest-news__view-all"
                         href="<?php echo esc_url($link_url); ?>"
+                        title="<?php echo esc_attr($link_title); ?>"
                         <?php if ($link_target === '_blank') : ?>
                             target="_blank"
                             rel="noopener noreferrer"

@@ -22,11 +22,12 @@ if ($post_id <= 0) {
 
 $is_preview   = !empty($args['is_preview']);
 $permalink    = get_permalink($post_id);
+$post_title   = get_the_title($post_id);
 $thumbnail_id = (int) get_post_thumbnail_id($post_id);
 $image_alt    = $thumbnail_id ? (string) get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true) : '';
 
 if ($image_alt === '') {
-    $image_alt = get_the_title($post_id);
+    $image_alt = $post_title;
 }
 
 $image_markup = $thumbnail_id
@@ -51,7 +52,15 @@ $image_markup = $thumbnail_id
 
 <div class="news-card__image">
     <?php if (!$is_preview && $permalink) : ?>
-        <a class="news-card__image-link" href="<?php echo esc_url($permalink); ?>" tabindex="-1" aria-hidden="true">
+        <a
+            class="news-card__image-link"
+            href="<?php echo esc_url($permalink); ?>"
+            tabindex="-1"
+            aria-hidden="true"
+            <?php if ($post_title !== '') : ?>
+                title="<?php echo esc_attr($post_title); ?>"
+            <?php endif; ?>
+        >
     <?php endif; ?>
 
         <?php if ($image_markup) : ?>

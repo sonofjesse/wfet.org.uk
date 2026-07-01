@@ -31,7 +31,11 @@ if ($title === '') {
 
 <h3 class="news-card__title">
     <?php if (!$is_preview && $permalink) : ?>
-        <a class="news-card__title-link" href="<?php echo esc_url($permalink); ?>">
+        <a
+            class="news-card__title-link"
+            href="<?php echo esc_url($permalink); ?>"
+            title="<?php echo esc_attr($title); ?>"
+        >
             <?php echo esc_html($title); ?>
         </a>
     <?php else : ?>
