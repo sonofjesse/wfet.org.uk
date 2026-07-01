@@ -350,6 +350,7 @@ $render_column = static function ($column, $modifier, $is_preview) use ($column_
     }
 
     $label              = $column['label'] ?? '';
+    $label_as_h1        = !empty($column['label_as_h1']);
     $title              = $column['title'] ?? '';
     $content            = $column['content'] ?? '';
     $buttons            = $column['buttons'] ?? [];
@@ -373,7 +374,11 @@ $render_column = static function ($column, $modifier, $is_preview) use ($column_
     ?>
     <div data-gsap-animate="stagger" class="content-columns__column content-columns__column--<?php echo esc_attr($modifier); ?>">
         <?php if ($label) : ?>
-            <p class="label"><?php echo esc_html($label); ?></p>
+            <?php if ($label_as_h1) : ?>
+                <h1 class="label"><?php echo esc_html($label); ?></h1>
+            <?php else : ?>
+                <p class="label"><?php echo esc_html($label); ?></p>
+            <?php endif; ?>
         <?php endif; ?>
 
         <?php if ($title) : ?>
