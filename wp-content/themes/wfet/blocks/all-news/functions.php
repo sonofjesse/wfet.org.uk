@@ -186,12 +186,68 @@ function soj_all_news_pagination_html(WP_Query $query, int $current_page, int $c
 }
 
 /**
+ * Whether the current request is a page that hosts the All News block.
+ */
+function soj_all_news_is_listing_page(): bool
+{
+    if (!is_page()) {
+        return false;
+    }
+
+    $post = get_queried_object();
+
+    return $post instanceof WP_Post && has_block('acf/all-news', $post);
+}
+
+/**
+ * Total pages for the default (unfiltered) All News listing query.
+ */
+function soj_all_news_total_pages(): int
+{
+    static $total_pages = null;
+
+    if ($total_pages !== null) {
+        return $total_pages;
+    }
+
+    $query = new WP_Query(soj_all_news_query_args(1));
+    $total_pages = max(1, (int) $query->max_num_pages);
+    wp_reset_postdata();
+
+    return $total_pages;
+}
+
+/**
+ * Tell Yoast this page is paginated so /page/N/ URLs self-canonicalise (and rel prev/next output).
+ */
+add_filter(
+    'wpseo_frontend_presentation',
+    static function ($presentation, $context) {
+        if (!soj_all_news_is_listing_page()) {
+            return $presentation;
+        }
+
+        $total_pages = soj_all_news_total_pages();
+
+        if ($total_pages < 2 || !isset($presentation->model)) {
+            return $presentation;
+        }
+
+        $presentation->model->number_of_pages = $total_pages;
+
+        return $presentation;
+    },
+    10,
+    2
+);
+
+/**
  * Static pages with /page/N/ URLs are used for All News pagination — avoid 404 and canonical redirects.
  */
 add_filter(
     'redirect_canonical',
     static function ($redirect_url) {
-        if (is_singular('page') && soj_all_news_current_page() > 1) {
+        if (soj_all_news_is_listing_page() && soj_all_news_current_page() > 1) {
             return false;
         }
 
@@ -202,7 +258,7 @@ add_filter(
 add_action(
     'template_redirect',
     static function (): void {
-        if (!is_page() || soj_all_news_current_page() < 2) {
+        if (!soj_all_news_is_listing_page() || soj_all_news_current_page() < 2) {
             return;
         }
 
