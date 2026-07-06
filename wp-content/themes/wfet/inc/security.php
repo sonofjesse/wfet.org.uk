@@ -53,30 +53,25 @@ add_action('init', function () {
 
 /**
  * REST API hardening (selective)
- * - Hide users & comments endpoints for unauthenticated users
- * - Allow WooCommerce, Gravity Forms, GA4, and core functionality
+ * - Block users & comments endpoints for visitors without the required capability
+ * - Use rest_dispatch_request (not rest_endpoints) to avoid auth recursion / memory exhaustion
  */
-add_filter('rest_endpoints', function ($endpoints) {
-    if (!is_user_logged_in()) {
-        unset($endpoints['/wp/v2/users']);
-        unset($endpoints['/wp/v2/users/(?P<id>[\d]+)']);
-        unset($endpoints['/wp/v2/comments']);
-    }
-    return $endpoints;
-});
+add_filter('rest_dispatch_request', function ($result, $request, $route, $handler) {
+    $path = $request->get_route();
 
-add_filter('rest_authentication_errors', function ($result) {
-    if (!empty($result)) {
-        return $result;
-    }
-    if (!is_user_logged_in() && isset($_GET['rest_route'])) {
-        $route = wp_unslash($_GET['rest_route']);
-        if (strpos($route, '/wp/v2/users') === 0) {
+    if (preg_match('#^/wp/v2/users(?:/|$)#', $path)) {
+        // /wp/v2/users/me has its own permission checks in core.
+        if (!preg_match('#^/wp/v2/users/me(?:/|$)#', $path) && !current_user_can('list_users')) {
             return new WP_Error('rest_forbidden', 'Access denied.', ['status' => 403]);
         }
     }
+
+    if (preg_match('#^/wp/v2/comments(?:/|$)#', $path) && !current_user_can('moderate_comments')) {
+        return new WP_Error('rest_forbidden', 'Access denied.', ['status' => 403]);
+    }
+
     return $result;
-});
+}, 10, 4);
 
 /**
  * Disable author sitemaps
@@ -317,9 +312,11 @@ add_action('do_feed_rss2', 'soj_disable_feed', 1);
 add_action('do_feed_atom', 'soj_disable_feed', 1);
 
 /**
- * Application Passwords: disable for non-admins
+ * Application Passwords: disable for non-admins.
+ * Must use the *_for_user filter — calling current_user_can() on
+ * wp_is_application_passwords_available causes infinite recursion during REST auth.
  */
-add_filter('wp_is_application_passwords_available', function ($available) {
-    return current_user_can('manage_options');
-});
+add_filter('wp_is_application_passwords_available_for_user', function ($available, $user) {
+    return user_can($user, 'manage_options');
+}, 10, 2);
 

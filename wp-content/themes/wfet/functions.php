@@ -226,7 +226,7 @@ function soj_autoload_includes()
         'inc/news-category-colours.php',
         'inc/insights-category-colours.php',
         'inc/block-manager.php',
-        //  'inc/security.php',
+        'inc/security.php',
         'inc/acf-options.php',
         'inc/faq-schema.php',
     ];
