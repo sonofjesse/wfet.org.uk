@@ -33,7 +33,7 @@ function soj_acf_options_page()
         'page_title'  => 'Site Settings',
         'menu_title'  => 'Site Settings',
         'menu_slug'   => 'site-settings',
-        'capability'  => 'manage_options',
+        'capability'  => 'edit_pages',
         'position'    => 30,
         'icon_url'    => 'dashicons-admin-generic',
         'redirect'    => false,
@@ -47,7 +47,7 @@ function soj_acf_options_page()
         'menu_title'  => 'Contact',
         'parent_slug' => 'site-settings',
         'menu_slug'   => 'site-settings-contact',
-        'capability'  => 'manage_options',
+        'capability'  => 'edit_pages',
         'post_id'     => 'options',
     ));*/
 }

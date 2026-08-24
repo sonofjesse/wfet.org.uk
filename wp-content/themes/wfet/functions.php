@@ -372,6 +372,20 @@ function soj_body_classes($classes)
 add_filter('body_class', 'soj_body_classes');
 
 /**
+ * Let Editors manage Appearance → Menus without persisting role changes.
+ *
+ * WordPress gates nav-menus.php behind edit_theme_options (admins only by default).
+ */
+add_filter('user_has_cap', function ($allcaps, $caps, $args, $user) {
+    $roles = isset($user->roles) ? (array) $user->roles : [];
+    if (in_array('editor', $roles, true)) {
+        $allcaps['edit_theme_options'] = true;
+    }
+
+    return $allcaps;
+}, 10, 4);
+
+/**
  * Customize admin
  */
 function soj_admin_customizations()
@@ -379,12 +393,71 @@ function soj_admin_customizations()
     // Remove comments for all users
     remove_menu_page('edit-comments.php');
 
-    // Remove themes for non-admins
+    // Editors may access Appearance → Menus, but not Themes / Customizer / Widgets / Site Editor.
     if (!current_user_can('manage_options')) {
-        remove_menu_page('themes.php');
+        soj_restrict_appearance_to_menus();
     }
 }
-add_action('admin_menu', 'soj_admin_customizations');
+add_action('admin_menu', 'soj_admin_customizations', 999);
+
+/**
+ * Keep Appearance in the admin menu for Editors, limited to Menus.
+ */
+function soj_restrict_appearance_to_menus()
+{
+    global $submenu;
+
+    if (!isset($submenu['themes.php']) || !is_array($submenu['themes.php'])) {
+        return;
+    }
+
+    foreach ($submenu['themes.php'] as $index => $item) {
+        $slug = isset($item[2]) ? (string) $item[2] : '';
+        if ($slug === 'nav-menus.php') {
+            continue;
+        }
+        unset($submenu['themes.php'][$index]);
+    }
+}
+
+/**
+ * Send Editors away from Appearance screens they should not use.
+ */
+add_action('admin_init', function () {
+    if (current_user_can('manage_options') || !current_user_can('edit_theme_options')) {
+        return;
+    }
+
+    global $pagenow;
+    $blocked = [
+        'themes.php',
+        'customize.php',
+        'widgets.php',
+        'site-editor.php',
+        'theme-editor.php',
+    ];
+
+    if (in_array($pagenow, $blocked, true)) {
+        wp_safe_redirect(admin_url('nav-menus.php'));
+        exit;
+    }
+});
+
+/**
+ * Hide Customizer / Design admin-bar links for non-admins.
+ */
+add_action('wp_before_admin_bar_render', function () {
+    if (current_user_can('manage_options') || !is_admin_bar_showing()) {
+        return;
+    }
+
+    global $wp_admin_bar;
+    $wp_admin_bar->remove_node('customize');
+    $wp_admin_bar->remove_node('design');
+    $wp_admin_bar->remove_node('themes');
+    $wp_admin_bar->remove_node('widgets');
+    $wp_admin_bar->remove_node('site-editor');
+}, 20);
 
 
 /**
